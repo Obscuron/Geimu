@@ -1,0 +1,14 @@
+# User-Specific files
+*.DS_Store
+*.suo
+*.user
+*.sln.docstates
+
+# Build Folders
+Geimu\Geimu\bin
+Geimu\Geimu\obj
+Geimu\GeimuContent\bin
+Geimu\GeimuContent\obj
+
+# Others
+*.cache
