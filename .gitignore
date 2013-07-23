@@ -5,10 +5,10 @@
 *.sln.docstates
 
 # Build Folders
-Geimu\Geimu\bin
-Geimu\Geimu\obj
-Geimu\GeimuContent\bin
-Geimu\GeimuContent\obj
+Geimu/Geimu/bin/
+Geimu/Geimu/obj/
+Geimu/GeimuContent/bin/
+Geimu/GeimuContent/obj/
 
 # Others
 *.cache
