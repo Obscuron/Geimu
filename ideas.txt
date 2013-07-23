@@ -1,0 +1,61 @@
+# General Ideas
+ - Roguelike
+ - Topdown
+ - Shooter
+
+ - high skill cap?
+ - simple/vectorized graphics?
+ - unlockable classes based on shapes?
+ - possible procedural generation of map layout
+ - items/buffs (per run or persists over all runs?)
+	- per run makes it require more skill and allows more differing playstyles
+	- persistance allows more rpg-style and gives more senese of accomplishments
+ - infinite? or a set goal?
+	- infinite seems harder to implement and remain engaging cause gameplay falls off unless user
+	  has the ability to change the world (see: minecraft/terraria) or have some progression (see: cubeworld)
+	- set goal better imo, having certain amount of lvls to beat, or # of bosses, or some weird mechanic?
+ - Having few specialty skills/abilities for classes for simplistic gameplay?
+	- harder to create many different ability per class and keep them balanced
+	- more engaging with fewer skills but more innovative ways to use?
+	- instead, we can put more focus on buffs/items earned during each run
+	
+ - game length (given limited game)
+	- longer games are definately more strategy based (see: nethack has a LOT of strategy and preparation involved)
+	- shorter games are much easier to jump into and is less devestating to the player upon death
+	- how long should a successful run be?
+		- nethack has very long run times (possibly 10hrs + if new beginner) and very unforgiving
+		- binding of isaac/spelunky are more around the time with upper cap at an hr per full run
+		- rogue legacy begins with runs as short as 3-5 minutes, and is even maybe 30 mins at full length
+
+ - how roguelike do we want this?
+	- full rogue-like: previous runs have no affect upon future
+		- entirely skill based
+		- not as engaging imo
+		- more suitable for very fast paced games
+	- having few interaction
+		- nethack has the ability to find your previous game's dead bodies and loot some cursed loot
+		- binding of isaac remembers info from previous games played (during current session, so only while game
+		  is still open) to modify some small percentages. Ex. chance of having an "angel" room is increased given
+		  you having a previous run with passing over a "devil" room
+		- spelunky allows you to start at future levels to skip both the risk of earlier levels and the rewards gotten
+		  (you have the choice to start any level you've beaten i think)
+	- progressive rpg elements?
+		- rogue legacy offers a new world everytime, but you have an 'inventory' and stats and bonuses you you can level up
+		  over time which persist to all future runs. Requires time invested into the game rather than having a more steeper
+		  skill cap.
+
+	
+# Possible gimmicks?
+ - evolution of shapes over time of play?
+ - ability to encounter your past self
+	- very hard to code, AI-wise, i would assume
+ - some simple manipulation of the world?
+	- either on a per run basis where you physically modify the world as you play
+	- or indirectly modifying the (future) world based on your actions (modify next level?)
+	- or slightly modifying your next/or future game worlds?
+	- this seems like a very small gimmick, iunno
+ - psudo-3d environments?
+	- you can kind of travel in a 3rd "height" dimension which causes backgrounds to fade in and out
+	- hard to implement on a graphical level i would assume
+ - possible co-op?
+	- either on same comp, or through internet? very different implementations and UI systems.
