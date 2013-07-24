@@ -7,8 +7,8 @@
 # Build Folders
 Geimu/Geimu/bin/
 Geimu/Geimu/obj/
-Geimu/GeimuContent/bin/
-Geimu/GeimuContent/obj/
+Geimu/Content/bin/
+Geimu/Content/obj/
 
 # Others
 *.cache
