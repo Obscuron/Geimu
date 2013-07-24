@@ -14,12 +14,19 @@ namespace Geimu
     /// <summary>
     /// This is the main type for your game
     /// </summary>
-    public class Game1 : Microsoft.Xna.Framework.Game
+    public class GameEngine : Microsoft.Xna.Framework.Game
     {
-        GraphicsDeviceManager graphics;
-        SpriteBatch spriteBatch;
+        // Graphics Managers
+        protected GraphicsDeviceManager graphics;
+        protected SpriteBatch spriteBatch;
 
-        public Game1()
+        // TODO: audio
+
+        // Temp for new sprite
+        protected Vector2 mPos = new Vector2(100, 100);
+        protected Texture2D mSprite;
+
+        public GameEngine()
         {
             graphics = new GraphicsDeviceManager(this);
             Content.RootDirectory = "Content";
@@ -48,6 +55,7 @@ namespace Geimu
             spriteBatch = new SpriteBatch(GraphicsDevice);
 
             // TODO: use this.Content to load your game content here
+            mSprite = this.Content.Load<Texture2D>("images\\Square");
         }
 
         /// <summary>
@@ -84,6 +92,9 @@ namespace Geimu
             GraphicsDevice.Clear(Color.CornflowerBlue);
 
             // TODO: Add your drawing code here
+            spriteBatch.Begin();
+            spriteBatch.Draw(mSprite, mPos, Color.White);
+            spriteBatch.End();
 
             base.Draw(gameTime);
         }

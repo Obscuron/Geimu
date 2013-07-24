@@ -116,9 +116,10 @@
     <Content Include="GameThumbnail.png" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\GeimuContent\GeimuContent.contentproj">
-      <Name>GeimuContent</Name>
+    <ProjectReference Include="..\Content\GeimuContent.contentproj">
+      <Name>GeimuContent %28Content%29</Name>
       <XnaReferenceType>Content</XnaReferenceType>
+      <Project>{C8575BC3-11C5-49A1-B5D0-AA701FA44D90}</Project>
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
