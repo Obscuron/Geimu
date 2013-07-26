@@ -24,6 +24,7 @@ namespace Geimu {
 
         // Square objects
         protected Square square0, square1;
+        protected SquareController squareControl0, squareControl1;
 
         public GameEngine() {
             graphics = new GraphicsDeviceManager(this);
@@ -38,11 +39,13 @@ namespace Geimu {
         /// </summary>
         protected override void Initialize() {
             // TODO: Add your initialization logic here
+            square0 = new Square(50, 50, 0);
+            square1 = new Square(300, 50, 1, 0.75f, 0.0f);
+
+            squareControl0 = square0.controller;
+            squareControl1 = square1.controller;
 
             base.Initialize();
-
-            square0 = new Square(50, 50);
-            square1 = new Square(300, 50);
         }
 
         /// <summary>
@@ -72,10 +75,20 @@ namespace Geimu {
         /// <param name="gameTime">Provides a snapshot of timing values.</param>
         protected override void Update(GameTime gameTime) {
             // Allows the game to exit
-            if (GamePad.GetState(PlayerIndex.One).Buttons.Back == ButtonState.Pressed)
+#if XBOX
+            if (GamePad.GetState(PlayerIndex.One).Buttons.Back == ButtonState.Pressed) {
+#else
+            if (Keyboard.GetState().IsKeyDown(Keys.Escape)) {
+#endif
                 this.Exit();
+            }
 
             // TODO: Add your update logic here
+            squareControl0.readInput();
+            squareControl1.readInput();
+
+            square0.Update();
+            square1.Update();
 
             base.Update(gameTime);
         }
