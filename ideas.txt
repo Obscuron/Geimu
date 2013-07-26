@@ -2,6 +2,7 @@
  - Roguelike
  - Topdown
  - Shooter
+ - Puzzle?
 
  - high skill cap?
  - simple/vectorized graphics?
@@ -60,4 +61,12 @@
  - possible co-op?
 	- either on same comp, or through internet? very different implementations and UI systems.
 
-#test
+
+# Stuff we talked about during chat that I still remember
+ - Possible change of genre to puzzle?
+ - goal: try to find the "correct" world by traversing many worlds
+	- each world could be randomized?
+	- this could either be with set puzzles while keeping some randomness
+	- or we can forgo puzzles and go with more randomness?
+ - chaos theory or butterfly effect of some sort?
+ 	- double layered implementation, one is more "surface" level where the player would have more interaction with, while other is more lower level that takes into account of minute details for an implementation of chaos theory
