@@ -22,9 +22,8 @@ namespace Geimu {
 
         // TODO: audio
 
-        // Temp for new sprite
-        protected Vector2 mPos = new Vector2(100, 100);
-        protected Texture2D mSprite;
+        // Square objects
+        protected Square square0, square1;
 
         public GameEngine() {
             graphics = new GraphicsDeviceManager(this);
@@ -41,6 +40,9 @@ namespace Geimu {
             // TODO: Add your initialization logic here
 
             base.Initialize();
+
+            square0 = new Square(50, 50);
+            square1 = new Square(300, 50);
         }
 
         /// <summary>
@@ -52,7 +54,7 @@ namespace Geimu {
             spriteBatch = new SpriteBatch(GraphicsDevice);
 
             // TODO: use this.Content to load your game content here
-            mSprite = this.Content.Load<Texture2D>("images\\Square");
+            Square.LoadContent(this.Content);
         }
 
         /// <summary>
@@ -86,9 +88,8 @@ namespace Geimu {
             GraphicsDevice.Clear(Color.CornflowerBlue);
 
             // TODO: Add your drawing code here
-            spriteBatch.Begin();
-            spriteBatch.Draw(mSprite, mPos, Color.White);
-            spriteBatch.End();
+            square0.Draw(spriteBatch);
+            square1.Draw(spriteBatch);
 
             base.Draw(gameTime);
         }
