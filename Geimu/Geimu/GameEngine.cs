@@ -9,13 +9,13 @@ using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
 using Microsoft.Xna.Framework.Media;
 
-namespace Geimu
-{
+namespace Geimu {
+
     /// <summary>
     /// This is the main type for your game
     /// </summary>
-    public class GameEngine : Microsoft.Xna.Framework.Game
-    {
+
+    public class GameEngine : Microsoft.Xna.Framework.Game {
         // Graphics Managers
         protected GraphicsDeviceManager graphics;
         protected SpriteBatch spriteBatch;
@@ -26,8 +26,7 @@ namespace Geimu
         protected Vector2 mPos = new Vector2(100, 100);
         protected Texture2D mSprite;
 
-        public GameEngine()
-        {
+        public GameEngine() {
             graphics = new GraphicsDeviceManager(this);
             Content.RootDirectory = "Content";
         }
@@ -38,8 +37,7 @@ namespace Geimu
         /// related content.  Calling base.Initialize will enumerate through any components
         /// and initialize them as well.
         /// </summary>
-        protected override void Initialize()
-        {
+        protected override void Initialize() {
             // TODO: Add your initialization logic here
 
             base.Initialize();
@@ -49,8 +47,7 @@ namespace Geimu
         /// LoadContent will be called once per game and is the place to load
         /// all of your content.
         /// </summary>
-        protected override void LoadContent()
-        {
+        protected override void LoadContent() {
             // Create a new SpriteBatch, which can be used to draw textures.
             spriteBatch = new SpriteBatch(GraphicsDevice);
 
@@ -62,8 +59,7 @@ namespace Geimu
         /// UnloadContent will be called once per game and is the place to unload
         /// all content.
         /// </summary>
-        protected override void UnloadContent()
-        {
+        protected override void UnloadContent() {
             // TODO: Unload any non ContentManager content here
         }
 
@@ -72,8 +68,7 @@ namespace Geimu
         /// checking for collisions, gathering input, and playing audio.
         /// </summary>
         /// <param name="gameTime">Provides a snapshot of timing values.</param>
-        protected override void Update(GameTime gameTime)
-        {
+        protected override void Update(GameTime gameTime) {
             // Allows the game to exit
             if (GamePad.GetState(PlayerIndex.One).Buttons.Back == ButtonState.Pressed)
                 this.Exit();
@@ -87,8 +82,7 @@ namespace Geimu
         /// This is called when the game should draw itself.
         /// </summary>
         /// <param name="gameTime">Provides a snapshot of timing values.</param>
-        protected override void Draw(GameTime gameTime)
-        {
+        protected override void Draw(GameTime gameTime) {
             GraphicsDevice.Clear(Color.CornflowerBlue);
 
             // TODO: Add your drawing code here
@@ -98,5 +92,7 @@ namespace Geimu
 
             base.Draw(gameTime);
         }
+
     }
+
 }
