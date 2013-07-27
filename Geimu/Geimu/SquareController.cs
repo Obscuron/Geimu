@@ -8,8 +8,8 @@ using Microsoft.Xna.Framework.Input;
 namespace Geimu {
 
     public class SquareController {
-        public readonly Keys[,] PLAYER_KEYS = { { Keys.W, Keys.S, Keys.A, Keys.D },
-                                                { Keys.Up, Keys.Down, Keys.Left, Keys.Right } };
+        public readonly Keys[,] PLAYER_KEYS = { { Keys.W, Keys.S, Keys.A, Keys.D, Keys.LeftShift },
+                                                { Keys.Up, Keys.Down, Keys.Left, Keys.Right, Keys.RightShift } };
 
         // Player id
         protected int mPlayer;
@@ -17,13 +17,18 @@ namespace Geimu {
         // 1 = down/right, -1 = up/left, 0 = still
         private int mXdir;
         private int mYdir;
+        private bool mWalk;
 
-        public int Xdir {
+        public int xDir {
             get { return mXdir; }
         }
 
-        public int Ydir {
+        public int yDir {
             get { return mYdir; }
+        }
+
+        public bool walk {
+            get { return mWalk; }
         }
 
         public SquareController(int id) {
@@ -33,13 +38,15 @@ namespace Geimu {
 
         public void readInput() {
             KeyboardState state = Keyboard.GetState();
-            Keys up, down, left, right;
+            Keys up, down, left, right, slow;
             up = PLAYER_KEYS[mPlayer, 0];
             down = PLAYER_KEYS[mPlayer, 1];
             left = PLAYER_KEYS[mPlayer, 2];
             right = PLAYER_KEYS[mPlayer, 3];
+            slow = PLAYER_KEYS[mPlayer, 4];
 
             mXdir = mYdir = 0;
+            mWalk = false;
 
             if (state.IsKeyDown(up) && !state.IsKeyDown(down))
                 mYdir = -1;
@@ -50,6 +57,9 @@ namespace Geimu {
                 mXdir = -1;
             if (state.IsKeyDown(right) && !state.IsKeyDown(left))
                 mXdir = 1;
+
+            if (state.IsKeyDown(slow))
+                mWalk = true;
 
         }
 

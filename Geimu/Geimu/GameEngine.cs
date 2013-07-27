@@ -39,8 +39,8 @@ namespace Geimu {
         /// </summary>
         protected override void Initialize() {
             // TODO: Add your initialization logic here
-            square0 = new Square(50, 50, 0);
-            square1 = new Square(300, 50, 1, 0.75f, 0.0f);
+            square0 = new Square(50, 100, 0);
+            square1 = new Square(300, 100, 1, 0.75f, 0.0f);
 
             squareControl0 = square0.controller;
             squareControl1 = square1.controller;

@@ -11,7 +11,10 @@ namespace Geimu {
 
     public class Square {
 
-        public const float VEL = 2.0f;
+        public const int SIZE = 91;
+
+        public const float VEL = 3.0f;
+        public const float VEL_SLOW = 1.5f;
 
         private static Texture2D sSprite;
 
@@ -49,8 +52,15 @@ namespace Geimu {
                 return;
             }
 
-            mVel.X = mController.Xdir * VEL;
-            mVel.Y = mController.Ydir * VEL;
+            float vel;
+
+            if (!mController.walk)
+                vel = VEL;
+            else
+                vel = VEL_SLOW;
+
+            mVel.X = mController.xDir * vel;
+            mVel.Y = mController.yDir * vel;
 
             mPos += mVel;
 
@@ -59,8 +69,15 @@ namespace Geimu {
         public void Draw(SpriteBatch spriteBatch) {
             spriteBatch.Begin();
 
-            Rectangle sector = new Rectangle(0, 0, sSprite.Width, sSprite.Height);
-            spriteBatch.Draw(sSprite, mPos, sector, Color.White, mRot, Vector2.Zero, mScale, SpriteEffects.None, 0);
+            Rectangle sector;
+            if (!mController.walk)
+                sector = new Rectangle(0, 0, SIZE, SIZE);
+            else
+                sector = new Rectangle(SIZE, 0, SIZE, SIZE / 2);
+
+            Vector2 origin = new Vector2(0, sector.Height);
+
+            spriteBatch.Draw(sSprite, mPos, sector, Color.White, mRot, origin, mScale, SpriteEffects.None, 0);
 
             spriteBatch.End();
         }
