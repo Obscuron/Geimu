@@ -19,6 +19,10 @@ namespace Geimu {
         public const float VEL = 3.0f;
         public const float VEL_SLOW = 1.5f;
 
+        // Firing rate
+        public const int PROJ_RATE = 4;
+        public const float PROJ_VEL = 5.0f;
+
         // Texture
         private static Texture2D sSprite;
 
@@ -39,6 +43,8 @@ namespace Geimu {
         protected Vector2 mPos;
         protected Vector2 mVel;
         protected Rectangle mSize;
+
+        protected int refire = 0;
 
         // Drawing data
         protected float mScale = 1.0f;
@@ -68,6 +74,7 @@ namespace Geimu {
         // Loads texture into memory
         public static void LoadContent(ContentManager content) {
             sSprite = content.Load<Texture2D>("images\\Square");
+            ProjectileQueue.LoadContent(content);
         }
 
         // Controls movement of Square
@@ -94,7 +101,23 @@ namespace Geimu {
 
             mPos += mVel;
 
+            if (refire == 0 && mController.fire) {
+                Vector2 pPos = new Vector2(mPos.X + (mSize.Width / 2), mPos.Y - (mSize.Height / 2));
+                Vector2 pVel = new Vector2(PROJ_VEL * mController.xDirPrev, PROJ_VEL * mController.yDirPrev);
+
+                pPos.X += mController.xDirPrev * (mSize.Width / 2);
+                pPos.Y += mController.yDirPrev * (mSize.Height / 2);
+
+                mProj.AddProjectile(pPos, pVel);
+                refire = PROJ_RATE;
+            }
+
+            if (refire > 0)
+                refire--;
+
             HandleWalls();
+
+            mProj.Update();
 
         }
 
@@ -126,6 +149,8 @@ namespace Geimu {
             spriteBatch.Draw(sSprite, mPos, sector, Color.White, mRot, origin, mScale, SpriteEffects.None, 0);
 
             spriteBatch.End();
+
+            mProj.Draw(spriteBatch);
         }
 
     }

@@ -43,8 +43,8 @@ namespace Geimu {
         }
 
         // Previous directions
-        private int mXdirPrev;
-        private int mYdirPrev;
+        private int mXdirPrev = 1;
+        private int mYdirPrev = 0;
 
         public int xDirPrev {
             get { return mXdirPrev; }
@@ -73,22 +73,28 @@ namespace Geimu {
 
             mXdir = mYdir = 0;
             mWalk = false;
+            mFire = false;
 
             if (state.IsKeyDown(up) && !state.IsKeyDown(down))
-                mYdir = mYdirPrev = -1;
+                mYdir = -1;
             else if (state.IsKeyDown(down) && !state.IsKeyDown(up))
-                mYdir = mYdirPrev = 1;
+                mYdir = 1;
 
             if (state.IsKeyDown(left) && !state.IsKeyDown(right))
-                mXdir = mXdirPrev = -1;
+                mXdir = -1;
             if (state.IsKeyDown(right) && !state.IsKeyDown(left))
-                mXdir = mXdirPrev = 1;
+                mXdir = 1;
 
             if (state.IsKeyDown(slow))
                 mWalk = true;
 
             if (state.IsKeyDown(fire))
                 mFire = true;
+
+            if (mXdir != 0 || mYdir != 0) {
+                mXdirPrev = mXdir;
+                mYdirPrev = mYdir;
+            }
 
         }
 
