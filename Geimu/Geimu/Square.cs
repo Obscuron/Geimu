@@ -19,7 +19,7 @@ namespace Geimu {
         public const float VEL = 3.0f;
         public const float VEL_SLOW = 1.5f;
 
-        // Texture for the object
+        // Texture
         private static Texture2D sSprite;
 
         // Controller for handling player input
@@ -29,13 +29,11 @@ namespace Geimu {
             get { return mController; }
         }
 
+        // Projectiles that the Square has fired
+        protected ProjectileQueue mProj;
+
         // Boundaries of the window
         protected Rectangle mBounds;
-
-        public Rectangle bounds {
-            set { mBounds = value; }
-            get { return mBounds; }
-        }
 
         // Square data
         protected Vector2 mPos;
@@ -47,18 +45,22 @@ namespace Geimu {
         protected float mRot = 0.0f;
 
         // Construct a new Square at a location with default size.
-        public Square(int x, int y, int id) {
+        public Square(int x, int y, int id, Rectangle bounds) {
             mPos = new Vector2(x, y);
             mVel = new Vector2(0, 0);
 
             mController = new SquareController(id);
 
+            mProj = new ProjectileQueue();
+
+            mBounds = bounds;
+
             mSize = new Rectangle();
         }
 
         // Constructs a new Square given size and rotation
-        public Square(int x, int y, int id, float scale, float rot)
-            : this(x, y, id) {
+        public Square(int x, int y, int id, float scale, float rot, Rectangle bounds)
+            : this(x, y, id, bounds) {
             mScale = scale;
             mRot = rot;
         }
@@ -78,7 +80,7 @@ namespace Geimu {
 
             if (!mController.walk) {
                 vel = VEL;
-                mSize.Height = (int) (SIZE * mScale);
+                mSize.Height = (int)(SIZE * mScale);
             }
             else {
                 vel = VEL_SLOW;
