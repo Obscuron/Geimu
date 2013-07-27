@@ -9,27 +9,35 @@ using Microsoft.Xna.Framework.Content;
 
 namespace Geimu {
 
+    // Class representing the player object
     public class Square {
 
+        // Sprite constants
         public const int SIZE = 91;
 
+        // Velocity constants
         public const float VEL = 3.0f;
         public const float VEL_SLOW = 1.5f;
 
+        // Texture for the object
         private static Texture2D sSprite;
 
+        // Controller for handling player input
         protected SquareController mController;
 
         public SquareController controller {
             get { return mController; }
         }
 
+        // Square data
         protected Vector2 mPos;
         protected Vector2 mVel;
 
+        // Drawing data
         protected float mScale = 1.0f;
         protected float mRot = 0.0f;
 
+        // Construct a new Square at a location with default size.
         public Square(int x, int y, int id) {
             mPos = new Vector2(x, y);
             mVel = new Vector2(0, 0);
@@ -37,16 +45,19 @@ namespace Geimu {
             mController = new SquareController(id);
         }
 
+        // Constructs a new Square given size and rotation
         public Square(int x, int y, int id, float scale, float rot)
             : this(x, y, id) {
             mScale = scale;
             mRot = rot;
         }
 
+        // Loads texture into memory
         public static void LoadContent(ContentManager content) {
             sSprite = content.Load<Texture2D>("images\\Square");
         }
 
+        // Controls movement of Square
         public void Update() {
             if (mController == null) {
                 return;
@@ -66,8 +77,9 @@ namespace Geimu {
 
         }
 
+        // Draws the Square
         public void Draw(SpriteBatch spriteBatch) {
-            spriteBatch.Begin();
+            spriteBatch.Begin(SpriteSortMode.BackToFront, BlendState.AlphaBlend);
 
             Rectangle sector;
             if (!mController.walk)

@@ -7,7 +7,9 @@ using Microsoft.Xna.Framework.Input;
 
 namespace Geimu {
 
+    // Class for reading input from keyboard
     public class SquareController {
+        // Keyboard keys for different players
         public readonly Keys[,] PLAYER_KEYS = { { Keys.W, Keys.S, Keys.A, Keys.D, Keys.LeftShift },
                                                 { Keys.Up, Keys.Down, Keys.Left, Keys.Right, Keys.RightShift } };
 
@@ -17,6 +19,8 @@ namespace Geimu {
         // 1 = down/right, -1 = up/left, 0 = still
         private int mXdir;
         private int mYdir;
+        
+        // true = walking
         private bool mWalk;
 
         public int xDir {
@@ -31,11 +35,13 @@ namespace Geimu {
             get { return mWalk; }
         }
 
+        // Constructs a controller for a given player id
         public SquareController(int id) {
             if (id > 1) id = 0;
             mPlayer = id;
         }
 
+        // Reads input from keyboard and updates fields
         public void readInput() {
             KeyboardState state = Keyboard.GetState();
             Keys up, down, left, right, slow;
