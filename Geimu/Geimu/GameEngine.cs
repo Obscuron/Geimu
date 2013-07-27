@@ -22,6 +22,9 @@ namespace Geimu {
 
         // TODO: audio
 
+        // Boundaries of the window
+        protected Rectangle bounds;
+
         // Square objects
         protected Square square0, square1;
         protected SquareController squareControl0, squareControl1;
@@ -39,8 +42,12 @@ namespace Geimu {
         /// </summary>
         protected override void Initialize() {
             // TODO: Add your initialization logic here
+            bounds = this.Window.ClientBounds;
+
             square0 = new Square(50, 100, 0);
             square1 = new Square(300, 100, 1, 0.75f, 0.0f);
+
+            square0.bounds = square1.bounds = bounds;
 
             squareControl0 = square0.controller;
             squareControl1 = square1.controller;

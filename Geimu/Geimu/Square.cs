@@ -29,9 +29,18 @@ namespace Geimu {
             get { return mController; }
         }
 
+        // Boundaries of the window
+        protected Rectangle mBounds;
+
+        public Rectangle bounds {
+            set { mBounds = value; }
+            get { return mBounds; }
+        }
+
         // Square data
         protected Vector2 mPos;
         protected Vector2 mVel;
+        protected Rectangle mSize;
 
         // Drawing data
         protected float mScale = 1.0f;
@@ -43,6 +52,8 @@ namespace Geimu {
             mVel = new Vector2(0, 0);
 
             mController = new SquareController(id);
+
+            mSize = new Rectangle();
         }
 
         // Constructs a new Square given size and rotation
@@ -65,16 +76,37 @@ namespace Geimu {
 
             float vel;
 
-            if (!mController.walk)
+            if (!mController.walk) {
                 vel = VEL;
-            else
+                mSize.Height = (int) (SIZE * mScale);
+            }
+            else {
                 vel = VEL_SLOW;
+                mSize.Height = (int)(SIZE / 2 * mScale);
+            }
+
+            mSize.Width = (int)(SIZE * mScale);
 
             mVel.X = mController.xDir * vel;
             mVel.Y = mController.yDir * vel;
 
             mPos += mVel;
 
+            HandleWalls();
+
+        }
+
+        // Handles collisions against walls
+        private void HandleWalls() {
+            if (mPos.X < 0)
+                mPos.X = 0;
+            else if (mPos.X + mSize.Width > mBounds.Width)
+                mPos.X = mBounds.Width - mSize.Width;
+
+            if (mPos.Y < mSize.Height)
+                mPos.Y = mSize.Height;
+            else if (mPos.Y > mBounds.Height)
+                mPos.Y = mBounds.Height;
         }
 
         // Draws the Square
