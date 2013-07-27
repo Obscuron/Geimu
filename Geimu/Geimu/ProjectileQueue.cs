@@ -9,7 +9,7 @@ using Microsoft.Xna.Framework.Graphics;
 namespace Geimu {
 
     // Class for handling Projectile
-    class ProjectileQueue {
+    public class ProjectileQueue {
         // Max constants for a single queue
         public const int MAX_AGE = 60;
         public const int MAX_NUM = 64;

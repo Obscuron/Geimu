@@ -51,7 +51,7 @@ namespace Geimu {
 
             mController = new SquareController(id);
 
-            mProj = new ProjectileQueue();
+            mProj = new ProjectileQueue(bounds);
 
             mBounds = bounds;
 
