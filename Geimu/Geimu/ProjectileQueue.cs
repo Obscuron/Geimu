@@ -26,6 +26,13 @@ namespace Geimu {
         // Size of the projectile
         protected static Rectangle mSize;
 
+        // Color of the projectiles
+        protected Color mTint;
+
+        public Color tint {
+            set { mTint = value; }
+        }
+
         // Internal Queue
         protected Projectile[] queue;
         protected int head;
@@ -42,6 +49,8 @@ namespace Geimu {
         // Constructs a new projectile queue
         public ProjectileQueue(Rectangle bounds) {
             mBounds = bounds;
+
+            mTint = Color.White;
 
             queue = new Projectile[MAX_NUM];
             head = 0;
@@ -101,8 +110,8 @@ namespace Geimu {
         }
 
         private void HandleWalls(int id) {
-            if (queue[id].pos.X < mSize.Width / 2) {
-                queue[id].pos.X = mSize.Width / 2;
+            if (queue[id].pos.X < mBounds.X + mSize.Width / 2) {
+                queue[id].pos.X = mBounds.X + mSize.Width / 2;
                 queue[id].vel.X = -queue[id].vel.X;
             }
             else if (queue[id].pos.X > mBounds.Width - mSize.Width / 2) {
@@ -110,8 +119,8 @@ namespace Geimu {
                 queue[id].vel.X = -queue[id].vel.X;
             }
 
-            if (queue[id].pos.Y < mSize.Height / 2) {
-                queue[id].pos.Y = mSize.Height / 2;
+            if (queue[id].pos.Y < mBounds.Y + mSize.Height / 2) {
+                queue[id].pos.Y = mBounds.Y + mSize.Height / 2;
                 queue[id].vel.Y = -queue[id].vel.Y;
             }
             else if (queue[id].pos.Y > mBounds.Height - mSize.Height / 2) {
@@ -123,10 +132,9 @@ namespace Geimu {
 
         // Draws each projectile
         public void Draw(SpriteBatch spriteBatch) {
-            spriteBatch.Begin();
+            spriteBatch.Begin(SpriteSortMode.BackToFront, BlendState.AlphaBlend);
 
             Rectangle sector = new Rectangle(0, 0, sSprite.Width, sSprite.Height);
-            Color tint = Color.White;
             Vector2 origin = new Vector2(sSprite.Width / 2, sSprite.Height / 2);
 
             for (int i = 0; i < size; i++) {
@@ -134,7 +142,7 @@ namespace Geimu {
 
                 float rotate = VectorToAngle(queue[id].vel) - (float)(Math.PI / 2);
 
-                spriteBatch.Draw(sSprite, queue[id].pos, sector, tint, rotate, origin, SCALE, SpriteEffects.None, 0);
+                spriteBatch.Draw(sSprite, queue[id].pos, sector, mTint, rotate, origin, SCALE, SpriteEffects.None, 0);
             }
 
             spriteBatch.End();

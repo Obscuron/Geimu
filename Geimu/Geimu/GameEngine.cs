@@ -44,8 +44,8 @@ namespace Geimu {
             // TODO: Add your initialization logic here
             bounds = this.Window.ClientBounds;
 
-            square0 = new Square(50, 100, 0, bounds);
-            square1 = new Square(300, 100, 1, 0.75f, 0.0f, bounds);
+            square0 = new Square(200, 300, 0, bounds);
+            square1 = new Square(500, 300, 1, 0.75f, 0.0f, bounds);
 
             squareControl0 = square0.controller;
             squareControl1 = square1.controller;

@@ -23,6 +23,9 @@ namespace Geimu {
         public const int PROJ_RATE = 4;
         public const float PROJ_VEL = 5.0f;
 
+        // Maximum health
+        public const int MAX_HEALTH = 300;
+
         // Texture
         private static Texture2D sSprite;
 
@@ -35,6 +38,9 @@ namespace Geimu {
 
         // Projectiles that the Square has fired
         protected ProjectileQueue mProj;
+
+        // Health Bar for the Square
+        protected HealthBar mHealth;
 
         // Boundaries of the window
         protected Rectangle mBounds;
@@ -57,9 +63,17 @@ namespace Geimu {
 
             mController = new SquareController(id);
 
-            mProj = new ProjectileQueue(bounds);
+            mBounds = new Rectangle(0, 75, bounds.Width, bounds.Height);
 
-            mBounds = bounds;
+            mProj = new ProjectileQueue(mBounds);
+            if (id == 1)
+                mProj.tint = Color.Green;
+
+            Rectangle healthBounds = new Rectangle(16, 16, 300, 44);
+            if (id == 1)
+                healthBounds.X = bounds.Width - 16;
+
+            mHealth = new HealthBar(MAX_HEALTH, healthBounds, id);
 
             mSize = new Rectangle();
         }
@@ -75,6 +89,7 @@ namespace Geimu {
         public static void LoadContent(ContentManager content) {
             sSprite = content.Load<Texture2D>("images\\Square");
             ProjectileQueue.LoadContent(content);
+            HealthBar.LoadContent(content);
         }
 
         // Controls movement of Square
@@ -123,19 +138,22 @@ namespace Geimu {
 
         // Handles collisions against walls
         private void HandleWalls() {
-            if (mPos.X < 0)
-                mPos.X = 0;
+            if (mPos.X < mBounds.X)
+                mPos.X = mBounds.X;
             else if (mPos.X + mSize.Width > mBounds.Width)
                 mPos.X = mBounds.Width - mSize.Width;
 
-            if (mPos.Y < mSize.Height)
-                mPos.Y = mSize.Height;
+            if (mPos.Y - mSize.Height < mBounds.Y)
+                mPos.Y = mBounds.Y + mSize.Height;
             else if (mPos.Y > mBounds.Height)
                 mPos.Y = mBounds.Height;
         }
 
-        // Draws the Square
+        // Draws the Square along with healthbar and projectiles
         public void Draw(SpriteBatch spriteBatch) {
+
+            mHealth.Draw(spriteBatch);
+
             spriteBatch.Begin(SpriteSortMode.BackToFront, BlendState.AlphaBlend);
 
             Rectangle sector;
