@@ -17,6 +17,9 @@ namespace Geimu {
         // Scale of the projectile
         public const float SCALE = 0.25f;
 
+        // Damage that the projectile does
+        public const int DMG = 5;
+
         // Texture
         private static Texture2D sSprite;
 
@@ -33,6 +36,13 @@ namespace Geimu {
             set { mTint = value; }
         }
 
+        // Information about the opponent square
+        protected Square mEnemySquare;
+
+        public Square enemySquare {
+            set { mEnemySquare = value; }
+        }
+
         // Internal Queue
         protected Projectile[] queue;
         protected int head;
@@ -44,6 +54,7 @@ namespace Geimu {
             public Vector2 pos;
             public Vector2 vel;
             public int age;
+            public bool hit;
         }
 
         // Constructs a new projectile queue
@@ -81,6 +92,7 @@ namespace Geimu {
             queue[tail].pos = pos;
             queue[tail].vel = vel;
             queue[tail].age = 0;
+            queue[tail].hit = false;
             size++;
         }
 
@@ -100,15 +112,24 @@ namespace Geimu {
             for (int i = 0; i < size; i++) {
                 int id = ((head + i) % MAX_NUM);
 
+                if (queue[id].hit) {
+                    queue[id].age++;
+                    continue;
+                }
+
                 queue[id].pos += queue[id].vel;
 
                 HandleWalls(id);
 
+                HandleSquare(id);
+
                 queue[id].age++;
+
             }
 
         }
 
+        // Handles collisions with window boundaries
         private void HandleWalls(int id) {
             if (queue[id].pos.X < mBounds.X + mSize.Width / 2) {
                 queue[id].pos.X = mBounds.X + mSize.Width / 2;
@@ -130,6 +151,30 @@ namespace Geimu {
 
         }
 
+        // Handles collisions with other square
+        private void HandleSquare(int id) {
+            Vector2[] offsets = { new Vector2(mSize.X / 2, mSize.Y / 2), new Vector2(mSize.X / 2, -mSize.Y / 2), 
+                                  new Vector2(-mSize.X / 2, mSize.Y / 2), new Vector2(-mSize.X / 2, -mSize.Y / 2) };
+
+            foreach (Vector2 offset in offsets) {
+                if (IsInside(queue[id].pos + offset)) {
+                    queue[id].hit = true;
+                    mEnemySquare.Damage(DMG);
+                    break;
+                }
+            }
+        }
+
+        // Returns if the vector is inside the enemy square
+        private Boolean IsInside(Vector2 pos) {
+            Vector2 enemyPos = mEnemySquare.pos;
+            Rectangle enemySize = mEnemySquare.size;
+            if (pos.X > enemyPos.X && pos.X < enemyPos.X + enemySize.Width) 
+                if (pos.Y > enemyPos.Y - enemySize.Height && pos.Y < enemyPos.Y)
+                    return true;
+            return false;
+        }
+
         // Draws each projectile
         public void Draw(SpriteBatch spriteBatch) {
             spriteBatch.Begin(SpriteSortMode.BackToFront, BlendState.AlphaBlend);
@@ -139,6 +184,9 @@ namespace Geimu {
 
             for (int i = 0; i < size; i++) {
                 int id = ((head + i) % MAX_NUM);
+
+                if (queue[id].hit)
+                    continue;
 
                 float rotate = VectorToAngle(queue[id].vel) - (float)(Math.PI / 2);
 

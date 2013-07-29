@@ -39,6 +39,10 @@ namespace Geimu {
         // Projectiles that the Square has fired
         protected ProjectileQueue mProj;
 
+        public Square enemySquare {
+            set { mProj.enemySquare = value; }
+        }
+
         // Health Bar for the Square
         protected HealthBar mHealth;
 
@@ -49,6 +53,14 @@ namespace Geimu {
         protected Vector2 mPos;
         protected Vector2 mVel;
         protected Rectangle mSize;
+
+        public Vector2 pos {
+            get { return mPos; }
+        }
+
+        public Rectangle size {
+            get { return mSize; }
+        }
 
         protected int refire = 0;
 
@@ -90,6 +102,17 @@ namespace Geimu {
             sSprite = content.Load<Texture2D>("images\\Square");
             ProjectileQueue.LoadContent(content);
             HealthBar.LoadContent(content);
+        }
+
+        // Set both squares as the enemies of each other
+        public static void SetEnemies(Square square, Square other) {
+            square.enemySquare = other;
+            other.enemySquare = square;
+        }
+
+        // Damages the Square
+        public void Damage(int amount) {
+            mHealth.Damage(amount);
         }
 
         // Controls movement of Square

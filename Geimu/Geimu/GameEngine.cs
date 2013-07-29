@@ -32,6 +32,10 @@ namespace Geimu {
         public GameEngine() {
             graphics = new GraphicsDeviceManager(this);
             Content.RootDirectory = "Content";
+
+            graphics.PreferredBackBufferWidth = 800;
+            graphics.PreferredBackBufferHeight = 600;
+            graphics.ApplyChanges();
         }
 
         /// <summary>
@@ -50,7 +54,12 @@ namespace Geimu {
             squareControl0 = square0.controller;
             squareControl1 = square1.controller;
 
+            Square.SetEnemies(square0, square1);
+
             base.Initialize();
+
+            IsFixedTimeStep = true;
+            TargetElapsedTime = TimeSpan.FromSeconds(1.0 / 60.0);
         }
 
         /// <summary>
@@ -71,6 +80,7 @@ namespace Geimu {
         /// </summary>
         protected override void UnloadContent() {
             // TODO: Unload any non ContentManager content here
+            Content.Unload();
         }
 
         /// <summary>

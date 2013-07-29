@@ -30,8 +30,14 @@ namespace Geimu {
             mPlayer = id;
         }
 
+        // Loads texture into memory
         public static void LoadContent(ContentManager content) {
             sSprite = content.Load<Texture2D>("images\\HealthBar");
+        }
+
+        // Damages the health by a certain amount
+        public void Damage(int amount) {
+            mHealth = (int) MathHelper.Clamp(mHealth - amount, 0, mMaxHealth);
         }
 
         // Draws the healthbar
