@@ -86,7 +86,7 @@ namespace Geimu {
         protected override void LoadContent() {
             // Create a new SpriteBatch, which can be used to draw textures.
             spriteBatch = new SpriteBatch(GraphicsDevice);
-            fontCambria = Content.Load<SpriteFont>("Fonts\\Cambria");
+            fontCambria = Content.Load<SpriteFont>("fonts\\Cambria");
 
             // TODO: use this.Content to load your game content here
             Square.LoadContent(this.Content);
