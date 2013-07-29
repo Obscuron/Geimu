@@ -183,7 +183,7 @@ namespace Geimu {
             if (!mController.walk)
                 sector = new Rectangle(0, 0, SIZE, SIZE);
             else
-                sector = new Rectangle(SIZE, 0, SIZE, SIZE / 2);
+                sector = new Rectangle(SIZE + 2, 0, SIZE, SIZE / 2);
 
             Vector2 origin = new Vector2(0, sector.Height);
 
