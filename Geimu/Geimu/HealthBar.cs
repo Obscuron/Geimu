@@ -40,6 +40,10 @@ namespace Geimu {
             mHealth = (int) MathHelper.Clamp(mHealth - amount, 0, mMaxHealth);
         }
 
+        public bool IsDead() {
+            return (mHealth == 0 && mMaxHealth != 0);
+        }
+
         // Draws the healthbar
         public void Draw(SpriteBatch spriteBatch) {
             spriteBatch.Begin(SpriteSortMode.BackToFront, BlendState.AlphaBlend);
@@ -60,10 +64,10 @@ namespace Geimu {
                 full.X -= 10;
             }
 
-            spriteBatch.Draw(sSprite, empty, sourceHealth, Color.Gray, 0.0f, origin, SpriteEffects.None, 1);
-            spriteBatch.Draw(sSprite, full, sourceHealth, Color.Red, 0.0f, origin, SpriteEffects.None, 0.5f);
+            spriteBatch.Draw(sSprite, empty, sourceHealth, Color.Gray, 0, origin, SpriteEffects.None, 1);
+            spriteBatch.Draw(sSprite, full, sourceHealth, Color.Red, 0, origin, SpriteEffects.None, 0.5f);
 
-            spriteBatch.Draw(sSprite, mLoc, source, Color.White, 0.0f, origin, SpriteEffects.None, 0);
+            spriteBatch.Draw(sSprite, mLoc, source, Color.White, 0, origin, SpriteEffects.None, 0);
 
             spriteBatch.End();
         }

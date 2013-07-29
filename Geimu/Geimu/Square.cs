@@ -107,8 +107,13 @@ namespace Geimu {
             mHealth.Damage(amount);
         }
 
+        // Returns true if the square is dead
+        public bool IsDead() {
+            return mHealth.IsDead();
+        }
+
         // Returns if the vector is inside the enemy square
-        public Boolean IsInside(Vector2 pos) {
+        public bool IsInside(Vector2 pos) {
             if (pos.X > mPos.X && pos.X < mPos.X + mSize.Width)
                 if (pos.Y > mPos.Y - mSize.Height && pos.Y < mPos.Y)
                     return true;

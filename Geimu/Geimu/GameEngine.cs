@@ -16,11 +16,21 @@ namespace Geimu {
     /// </summary>
 
     public class GameEngine : Microsoft.Xna.Framework.Game {
+        // States
+        public const int STATE_PLAY = 0;
+        public const int STATE_END = 1;
+
+        // Current game state
+        protected int state;
+
         // Graphics Managers
         protected GraphicsDeviceManager graphics;
         protected SpriteBatch spriteBatch;
 
         // TODO: audio
+
+        // Fonts
+        protected SpriteFont fontCambria;
 
         // Boundaries of the window
         protected Rectangle bounds;
@@ -46,8 +56,18 @@ namespace Geimu {
         /// </summary>
         protected override void Initialize() {
             // TODO: Add your initialization logic here
-            bounds = this.Window.ClientBounds;
+            bounds = new Rectangle(0, 0, graphics.GraphicsDevice.Viewport.Width, graphics.GraphicsDevice.Viewport.Height);
 
+            NewGame();
+
+            base.Initialize();
+
+            IsFixedTimeStep = true;
+            TargetElapsedTime = TimeSpan.FromSeconds(1.0 / 60.0);
+        }
+
+        // Starts a new game
+        protected void NewGame() {
             square0 = new Square(200, 300, 0, bounds);
             square1 = new Square(500, 300, 1, 0.75f, 0.0f, bounds);
 
@@ -56,10 +76,7 @@ namespace Geimu {
 
             Square.SetEnemies(square0, square1);
 
-            base.Initialize();
-
-            IsFixedTimeStep = true;
-            TargetElapsedTime = TimeSpan.FromSeconds(1.0 / 60.0);
+            state = STATE_PLAY;
         }
 
         /// <summary>
@@ -69,6 +86,7 @@ namespace Geimu {
         protected override void LoadContent() {
             // Create a new SpriteBatch, which can be used to draw textures.
             spriteBatch = new SpriteBatch(GraphicsDevice);
+            fontCambria = Content.Load<SpriteFont>("Fonts\\Cambria");
 
             // TODO: use this.Content to load your game content here
             Square.LoadContent(this.Content);
@@ -99,11 +117,21 @@ namespace Geimu {
             }
 
             // TODO: Add your update logic here
-            squareControl0.readInput();
-            squareControl1.readInput();
+            switch (state) {
+                case STATE_PLAY:
+                    squareControl0.readInput();
+                    squareControl1.readInput();
 
-            square0.Update();
-            square1.Update();
+                    square0.Update();
+                    square1.Update();
+                    if (square0.IsDead() || square1.IsDead())
+                        state = STATE_END;
+                    break;
+                case STATE_END:
+                    if (Keyboard.GetState().IsKeyDown(Keys.R))
+                        NewGame();
+                    break;
+            }
 
             base.Update(gameTime);
         }
@@ -119,7 +147,45 @@ namespace Geimu {
             square0.Draw(spriteBatch);
             square1.Draw(spriteBatch);
 
+            if (state == STATE_END)
+                DrawEnd(square0.IsDead());
+
             base.Draw(gameTime);
+        }
+
+        // Draws the gameover text
+        protected void DrawEnd(bool p1dead) {
+            spriteBatch.Begin(SpriteSortMode.BackToFront, BlendState.AlphaBlend);
+
+            int winner = 1;
+            if (p1dead)
+                winner = 2;
+
+            String line1 = String.Format("Player {0} Wins!", winner);
+            String line2 = "Press R to play again";
+
+            Vector2 pos1 = new Vector2(bounds.Width / 2, bounds.Height / 2);
+            Vector2 pos2 = new Vector2(bounds.Width / 2, 55 + bounds.Height / 2);
+
+            Vector2 origin1 = fontCambria.MeasureString(line1) / 2;
+            Vector2 origin2 = fontCambria.MeasureString(line2) / 2;
+
+            DrawBorderedText(line1, pos1, origin1);
+            DrawBorderedText(line2, pos2, origin2);
+
+            spriteBatch.End();
+        }
+
+        // Draws white text with black border, assumes spritebatch has already began. Font: Cambria
+        private void DrawBorderedText(String text, Vector2 pos, Vector2 origin) {
+            Vector2[] offsets = { new Vector2(1, 1), new Vector2(1, -1), new Vector2(-1, 1), new Vector2(-1, -1) };
+
+            foreach (Vector2 offset in offsets) {
+                spriteBatch.DrawString(fontCambria, text, pos + offset, Color.Black, 0, origin, 1, SpriteEffects.None, 1);
+            }
+
+            spriteBatch.DrawString(fontCambria, text, pos, Color.White, 0, origin, 1, SpriteEffects.None, 0);
+
         }
 
     }
