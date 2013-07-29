@@ -157,22 +157,12 @@ namespace Geimu {
                                   new Vector2(-mSize.X / 2, mSize.Y / 2), new Vector2(-mSize.X / 2, -mSize.Y / 2) };
 
             foreach (Vector2 offset in offsets) {
-                if (IsInside(queue[id].pos + offset)) {
+                if (mEnemySquare.IsInside(queue[id].pos + offset)) {
                     queue[id].hit = true;
                     mEnemySquare.Damage(DMG);
                     break;
                 }
             }
-        }
-
-        // Returns if the vector is inside the enemy square
-        private Boolean IsInside(Vector2 pos) {
-            Vector2 enemyPos = mEnemySquare.pos;
-            Rectangle enemySize = mEnemySquare.size;
-            if (pos.X > enemyPos.X && pos.X < enemyPos.X + enemySize.Width) 
-                if (pos.Y > enemyPos.Y - enemySize.Height && pos.Y < enemyPos.Y)
-                    return true;
-            return false;
         }
 
         // Draws each projectile

@@ -54,14 +54,6 @@ namespace Geimu {
         protected Vector2 mVel;
         protected Rectangle mSize;
 
-        public Vector2 pos {
-            get { return mPos; }
-        }
-
-        public Rectangle size {
-            get { return mSize; }
-        }
-
         protected int refire = 0;
 
         // Drawing data
@@ -113,6 +105,14 @@ namespace Geimu {
         // Damages the Square
         public void Damage(int amount) {
             mHealth.Damage(amount);
+        }
+
+        // Returns if the vector is inside the enemy square
+        public Boolean IsInside(Vector2 pos) {
+            if (pos.X > mPos.X && pos.X < mPos.X + mSize.Width)
+                if (pos.Y > mPos.Y - mSize.Height && pos.Y < mPos.Y)
+                    return true;
+            return false;
         }
 
         // Controls movement of Square
