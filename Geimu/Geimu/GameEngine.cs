@@ -62,6 +62,8 @@ namespace Geimu {
 
             base.Initialize();
 
+            this.IsMouseVisible = true;
+
             IsFixedTimeStep = true;
             TargetElapsedTime = TimeSpan.FromSeconds(1.0 / 60.0);
         }
