@@ -122,9 +122,8 @@ namespace Geimu {
 
         // Controls movement of Square
         public void Update() {
-            if (mController == null) {
+            if (mController == null)
                 return;
-            }
 
             float vel;
 
