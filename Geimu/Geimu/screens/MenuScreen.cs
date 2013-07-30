@@ -60,8 +60,6 @@ namespace Geimu {
             if (controller == null)
                 return;
 
-            controller.readInput();
-
             if (controller.prev) {
                 menuChoice--;
                 if (menuChoice < 0)
@@ -81,6 +79,12 @@ namespace Geimu {
                 OnCancel();
 
             base.Update(gameTime);
+        }
+
+        public override void HandleInput(InputState input) {
+            controller.readInput(input);
+
+            base.HandleInput(input);
         }
 
         // Draws the menu choices

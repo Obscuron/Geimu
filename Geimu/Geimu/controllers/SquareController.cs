@@ -61,7 +61,7 @@ namespace Geimu {
         }
 
         // Reads input from keyboard and updates fields
-        public void readInput() {
+        public void readInput(InputState input) {
             KeyboardState state = Keyboard.GetState();
             Keys up, down, left, right, slow, fire;
             up = PLAYER_KEYS[mPlayer, 0];

@@ -44,6 +44,9 @@ namespace Geimu {
             get { return mBounds; }
         }
 
+        // Input state
+        public InputState input = new InputState();
+
         // Constructs a new screen manager
         public ScreenManager(Game game) {
             mGame = game;
@@ -62,6 +65,8 @@ namespace Geimu {
 
         // Updates each screen
         public void Update(GameTime gameTime) {
+            input.Update();
+
             foreach (Screen s in removeList) {
                 screens.Remove(s);
             }
@@ -73,8 +78,10 @@ namespace Geimu {
             addList.Clear();
 
             foreach (Screen s in screens) {
-                if (s.updateState)
+                if (s.updateState) {
+                    s.HandleInput(input);
                     s.Update(gameTime);
+                }
             }
         }
 

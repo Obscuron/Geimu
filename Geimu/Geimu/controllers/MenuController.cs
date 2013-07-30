@@ -9,44 +9,29 @@ namespace Geimu {
 
     // Class for handling Menu input
     public class MenuController {
-
-        // Keyboard states
-        protected KeyboardState prevKeyboard;
-        protected KeyboardState curKeyboard;
-
-        // Mouse states
-        protected MouseState prevMouse;
-        protected MouseState curMouse;
+        // Input state
+        protected InputState inputState;
 
         // Selection properties
         public bool prev {
-            get { return IsNewKeyPress(Keys.Up) || IsNewKeyPress(Keys.Left); }
+            get { return inputState.IsNewKeyPress(Keys.Up) || inputState.IsNewKeyPress(Keys.Left); }
         }
 
         public bool next {
-            get { return IsNewKeyPress(Keys.Down) || IsNewKeyPress(Keys.Right); }
+            get { return inputState.IsNewKeyPress(Keys.Down) || inputState.IsNewKeyPress(Keys.Right); }
         }
 
         public bool select {
-            get { return IsNewKeyPress(Keys.Space) || IsNewKeyPress(Keys.Enter); }
+            get { return inputState.IsNewKeyPress(Keys.Space) || inputState.IsNewKeyPress(Keys.Enter); }
         }
 
         public bool cancel {
-            get { return IsNewKeyPress(Keys.Escape); }
+            get { return inputState.IsNewKeyPress(Keys.Escape); }
         }
 
         // Reads the input
-        public void readInput() {
-            prevKeyboard = curKeyboard;
-            prevMouse = curMouse;
-
-            curKeyboard = Keyboard.GetState();
-            curMouse = Mouse.GetState();
-        }
-
-        // Checks if a key was newly pressed
-        public bool IsNewKeyPress(Keys key) {
-            return (curKeyboard.IsKeyDown(key) && prevKeyboard.IsKeyUp(key));
+        public void readInput(InputState input) {
+            inputState = input;
         }
 
     }

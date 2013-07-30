@@ -38,6 +38,8 @@ namespace Geimu {
 
         public virtual void UnloadContent() { }
 
+        public virtual void HandleInput(InputState input) { }
+
         public virtual void Update(GameTime gameTime) { }
 
         public virtual void Draw(GameTime gameTime) { }

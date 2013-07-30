@@ -55,9 +55,6 @@ namespace Geimu {
 
         // Updates squares every tick
         public override void Update(GameTime gameTime) {
-            squareControl0.readInput();
-            squareControl1.readInput();
-
             square0.Update();
             square1.Update();
             if (square0.IsDead() || square1.IsDead()) {
@@ -66,6 +63,14 @@ namespace Geimu {
             }
 
             base.Update(gameTime);
+        }
+
+        // Handles keyboard input
+        public override void HandleInput(InputState input) {
+            squareControl0.readInput(input);
+            squareControl1.readInput(input);
+            
+            base.HandleInput(input);
         }
 
         // Draws game objects onto screen

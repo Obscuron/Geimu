@@ -10,7 +10,10 @@ namespace Geimu {
 
     // Screen when the game is over
     public class EndScreen : MenuScreen {
+        // Determins whether "r" has been pressed
+        protected bool retryKey = false;
 
+        // Reference to the game screen object
         protected GameScreen gameScreen;
 
         // Constructor
@@ -55,10 +58,18 @@ namespace Geimu {
 
         // Waits for R to reset the game
         public override void Update(GameTime gameTime) {
-            if (Keyboard.GetState().IsKeyDown(Keys.R))
+            if (retryKey)
                 Retry();
 
             base.Update(gameTime);
+        }
+
+        public override void HandleInput(InputState input) {
+            retryKey = false;
+            if (input.IsNewKeyPress(Keys.R))
+                retryKey = true;
+
+            base.HandleInput(input);
         }
 
         // Draws the game over text
