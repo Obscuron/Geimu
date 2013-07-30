@@ -16,7 +16,7 @@ namespace Geimu {
         protected int menuChoice = 0;
 
         // The controller for the menu
-        protected MenuController menuController;
+        protected static MenuController menuController = new MenuController();
 
         public MenuController controller {
             get { return menuController; }
@@ -27,7 +27,7 @@ namespace Geimu {
         protected Vector2 menuPos = Vector2.Zero;
 
         // Scale of the menu options
-        protected float menuScale = 0.5f;
+        protected float menuScale = 0.8f;
 
         // Origin of the text
         protected Vector2 origin;
@@ -41,6 +41,13 @@ namespace Geimu {
         // Constructor
         public MenuScreen() {
             Activate();
+        }
+
+        public override void Initialize() {
+            Activate();
+            menuChoice = 0;
+
+            base.Initialize();
         }
 
         // Loads font
@@ -115,6 +122,18 @@ namespace Geimu {
             screenManager.spriteBatch.End();
 
             base.Draw(gameTime);
+        }
+
+        // Draws white text with black border, assumes spritebatch has already began. Font: Cambria
+        protected void DrawBorderedText(String text, Vector2 pos, Vector2 origin) {
+            Vector2[] offsets = { new Vector2(1, 1), new Vector2(1, -1), new Vector2(-1, 1), new Vector2(-1, -1) };
+
+            foreach (Vector2 offset in offsets) {
+                screenManager.spriteBatch.DrawString(fontCambria, text, pos + offset, Color.Black, 0, origin, 1, SpriteEffects.None, 1);
+            }
+
+            screenManager.spriteBatch.DrawString(fontCambria, text, pos, Color.White, 0, origin, 1, SpriteEffects.None, 0);
+
         }
 
     }

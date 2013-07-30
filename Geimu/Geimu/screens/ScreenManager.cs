@@ -20,6 +20,7 @@ namespace Geimu {
         // Managers
         protected Game mGame;
         protected SpriteBatch mSpriteBatch;
+        protected ScreenReference mScreens;
 
         public Game game {
             get { return mGame; }
@@ -37,6 +38,10 @@ namespace Geimu {
             get { return mSpriteBatch; }
         }
 
+        public ScreenReference screenList {
+            get { return mScreens; }
+        }
+
         // Game boundaries
         protected Rectangle mBounds;
 
@@ -50,12 +55,13 @@ namespace Geimu {
         // Constructs a new screen manager
         public ScreenManager(Game game) {
             mGame = game;
+            mScreens = new ScreenReference();
         }
 
         // Starts up the game with the main menu
         public void Initialize() {
             mBounds = new Rectangle(0, 0, graphicsDevice.Viewport.Width, graphicsDevice.Viewport.Height);
-            AddScreen(new GameScreen());
+            AddScreen(new MainMenu());
         }
 
         // Creates a new sprite batch

@@ -13,21 +13,12 @@ namespace Geimu {
         // Determins whether "r" has been pressed
         protected bool retryKey = false;
 
-        // Reference to the game screen object
-        protected GameScreen gameScreen;
-
         // Constructor
-        public EndScreen(GameScreen game) {
-            Activate();
-            gameScreen = game;
-
+        public EndScreen() {
             menuEntries.Add("Retry");
-            menuEntries.Add("Exit");
+            menuEntries.Add("Exit to Main Menu");
 
-            menuScale = 0.8f;
             menuJustify = 1;
-
-            menuController = new MenuController();
         }
 
         // Selected menu choice
@@ -46,14 +37,17 @@ namespace Geimu {
 
         // Canceling will exit the game
         protected override void OnCancel() {
-            screenManager.game.Exit();
+            screenManager.RemoveScreen(screenManager.screenList.game);
+            screenManager.RemoveScreen(this);
+            screenManager.AddScreen(screenManager.screenList.menu);
 
             base.OnCancel();
         }
 
+        // Replays the game
         protected void Retry() {
             screenManager.RemoveScreen(this);
-            gameScreen.Initialize();
+            screenManager.screenList.game.Initialize();
         }
 
         // Waits for R to reset the game
@@ -64,6 +58,7 @@ namespace Geimu {
             base.Update(gameTime);
         }
 
+        // Checks for R key
         public override void HandleInput(InputState input) {
             retryKey = false;
             if (input.IsNewKeyPress(Keys.R))
@@ -78,29 +73,17 @@ namespace Geimu {
 
             Rectangle bounds = screenManager.bounds;
 
-            String line = String.Format("Player {0} Wins!", gameScreen.Winner());
+            String text = String.Format("Player {0} Wins!", screenManager.screenList.game.Winner());
             Vector2 pos = new Vector2(bounds.Width / 2, bounds.Height / 2);
-            Vector2 origin = fontCambria.MeasureString(line) / 2;
+            Vector2 origin = fontCambria.MeasureString(text) / 2;
 
-            DrawBorderedText(line, pos, origin);
+            DrawBorderedText(text, pos, origin);
 
             screenManager.spriteBatch.End();
 
             menuPos = new Vector2(bounds.Width / 2, fontCambria.LineSpacing + bounds.Height / 2);
 
             base.Draw(gameTime);
-        }
-
-        // Draws white text with black border, assumes spritebatch has already began. Font: Cambria
-        private void DrawBorderedText(String text, Vector2 pos, Vector2 origin) {
-            Vector2[] offsets = { new Vector2(1, 1), new Vector2(1, -1), new Vector2(-1, 1), new Vector2(-1, -1) };
-
-            foreach (Vector2 offset in offsets) {
-                screenManager.spriteBatch.DrawString(fontCambria, text, pos + offset, Color.Black, 0, origin, 1, SpriteEffects.None, 1);
-            }
-
-            screenManager.spriteBatch.DrawString(fontCambria, text, pos, Color.White, 0, origin, 1, SpriteEffects.None, 0);
-
         }
 
     }

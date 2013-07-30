@@ -5,7 +5,7 @@ using System.Text;
 
 namespace Geimu {
 
-    class PauseScreen : MenuScreen {
+    public class PauseScreen : MenuScreen {
 
     }
 

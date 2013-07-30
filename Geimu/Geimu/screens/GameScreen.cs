@@ -12,12 +12,9 @@ namespace Geimu {
         protected Square square0, square1;
         protected SquareController squareControl0, squareControl1;
 
-        protected EndScreen gameEnd;
-
         // Constructor
         public GameScreen() {
             Activate();
-            gameEnd = new EndScreen(this);
         }
 
         // Initializes the game screen with a new game
@@ -59,7 +56,7 @@ namespace Geimu {
             square1.Update();
             if (square0.IsDead() || square1.IsDead()) {
                 updateState = false;
-                screenManager.AddScreen(gameEnd);
+                screenManager.AddScreen(screenManager.screenList.end);
             }
 
             base.Update(gameTime);
