@@ -24,10 +24,16 @@ namespace Geimu {
         }
 
         // Where to draw the menu
-        protected Vector2 pos = Vector2.Zero;
+        protected Vector2 menuPos = Vector2.Zero;
 
         // Scale of the menu options
         protected float menuScale = 0.5f;
+
+        // Origin of the text
+        protected Vector2 origin;
+
+        // Justification of text. 0 = left, 1 = center, 2 = right
+        protected int menuJustify = 0;
 
         // Font
         protected SpriteFont fontCambria;
@@ -40,14 +46,14 @@ namespace Geimu {
         // Loads font
         public override void LoadContent() {
             fontCambria = screenManager.contentManager.Load<SpriteFont>("fonts\\Cambria");
+            origin = new Vector2(0, fontCambria.LineSpacing / 2);
             base.LoadContent();
         }
+        // Called upon selecting a menu item
+        protected virtual void OnSelected(int selection) { }
 
         // Called upon cancelling
         protected virtual void OnCancel() { }
-
-        // Called upon selecting a menu item
-        protected virtual void OnSelected(int selection) { }
 
         // Updates the menu selection based on controller
         public override void Update(GameTime gameTime) {
@@ -79,7 +85,7 @@ namespace Geimu {
 
         // Draws the menu choices
         public override void Draw(GameTime gameTime) {
-            Vector2 curPos = pos;
+            Vector2 curPos = menuPos;
 
             screenManager.spriteBatch.Begin(SpriteSortMode.BackToFront, BlendState.AlphaBlend);
 
@@ -92,11 +98,14 @@ namespace Geimu {
                     scale *= 1 + (float)(Math.Sin(gameTime.TotalGameTime.TotalSeconds) + 1) * 0.05f;
                 }
 
-                Vector2 origin = new Vector2(0, fontCambria.LineSpacing / 2);
+                if (menuJustify == 1)
+                    origin.X = fontCambria.MeasureString(menuEntries[i]).X / 2;
+                else if (menuJustify == 2)
+                    origin.X = fontCambria.MeasureString(menuEntries[i]).X;
 
                 screenManager.spriteBatch.DrawString(fontCambria, menuEntries[i], curPos, tint, 0, origin, scale, SpriteEffects.None, 0);
 
-                curPos.Y += fontCambria.LineSpacing;
+                curPos.Y += fontCambria.LineSpacing * menuScale;
             }
 
             screenManager.spriteBatch.End();
