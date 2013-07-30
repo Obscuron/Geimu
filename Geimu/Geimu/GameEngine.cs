@@ -26,6 +26,7 @@ namespace Geimu {
         // Graphics Managers
         protected GraphicsDeviceManager graphics;
         protected SpriteBatch spriteBatch;
+        protected ScreenManager screenManager;
 
         // TODO: audio
 
@@ -46,6 +47,8 @@ namespace Geimu {
             graphics.PreferredBackBufferWidth = 800;
             graphics.PreferredBackBufferHeight = 600;
             graphics.ApplyChanges();
+
+            screenManager = new ScreenManager(this);
         }
 
         /// <summary>
@@ -56,7 +59,7 @@ namespace Geimu {
         /// </summary>
         protected override void Initialize() {
             // TODO: Add your initialization logic here
-            bounds = new Rectangle(0, 0, graphics.GraphicsDevice.Viewport.Width, graphics.GraphicsDevice.Viewport.Height);
+            bounds = new Rectangle(0, 0, GraphicsDevice.Viewport.Width, GraphicsDevice.Viewport.Height);
 
             NewGame();
 

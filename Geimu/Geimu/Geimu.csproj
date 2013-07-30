@@ -120,7 +120,7 @@
     <Compile Include="objects\Square.cs" />
     <Compile Include="controllers\SquareController.cs" />
     <Compile Include="screens\Screen.cs" />
-    <Compile Include="screens\ScreenHandler.cs" />
+    <Compile Include="screens\ScreenManager.cs" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="Game.ico" />
