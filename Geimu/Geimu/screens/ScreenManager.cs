@@ -116,6 +116,13 @@ namespace Geimu {
             removeList.Add(screen);
         }
 
+        // Removes all current screens
+        public void RemoveAll() {
+            foreach (Screen s in screens) {
+                RemoveScreen(s);
+            }
+        }
+
     }
 
 }

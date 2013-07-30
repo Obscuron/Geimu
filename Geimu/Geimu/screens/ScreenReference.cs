@@ -9,6 +9,7 @@ namespace Geimu {
         // References to screens
         protected MainMenu menuScreen;
         protected GameScreen gameScreen;
+        protected PauseScreen pauseScreen;
         protected EndScreen endScreen;
 
         public MainMenu menu {
@@ -19,6 +20,10 @@ namespace Geimu {
             get { return gameScreen; }
         }
 
+        public PauseScreen pause {
+            get { return pauseScreen; }
+        }
+
         public EndScreen end {
             get { return endScreen; }
         }
@@ -27,6 +32,7 @@ namespace Geimu {
             menuScreen = new MainMenu();
             gameScreen = new GameScreen();
             endScreen = new EndScreen();
+            pauseScreen = new PauseScreen();
         }
 
     }

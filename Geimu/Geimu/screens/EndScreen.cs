@@ -37,8 +37,7 @@ namespace Geimu {
 
         // Canceling will exit the game
         protected override void OnCancel() {
-            screenManager.RemoveScreen(screenManager.screenList.game);
-            screenManager.RemoveScreen(this);
+            screenManager.RemoveAll();
             screenManager.AddScreen(screenManager.screenList.menu);
 
             base.OnCancel();

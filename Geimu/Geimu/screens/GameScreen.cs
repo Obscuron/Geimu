@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using Microsoft.Xna.Framework;
+using Microsoft.Xna.Framework.Input;
 
 namespace Geimu {
 
@@ -64,6 +65,11 @@ namespace Geimu {
 
         // Handles keyboard input
         public override void HandleInput(InputState input) {
+            if (input.IsNewKeyPress(Keys.Escape)) {
+                Deactivate();
+                screenManager.AddScreen(screenManager.screenList.pause);
+            }
+
             squareControl0.readInput(input);
             squareControl1.readInput(input);
             
