@@ -7,28 +7,19 @@ using Microsoft.Xna.Framework.Graphics;
 
 namespace Geimu {
 
-    // Screen for the main menu
-    public class MainMenu : MenuScreen {
+    public class OptionsScreen : MenuScreen {
 
         // Constructor
-        public MainMenu() {
-            menuEntries.Add("Start Game");
-            menuEntries.Add("Options");
-            menuEntries.Add("Exit");
+        public OptionsScreen() {
+            menuEntries.Add("Controls");
+            menuEntries.Add("Back");
         }
 
-        // On menu selection
         protected override void OnSelected(int selection) {
             switch (selection) {
                 case 0:
-                    screenManager.AddScreen(screenManager.screenList.game);
-                    screenManager.RemoveScreen(this);
                     break;
                 case 1:
-                    Deactivate();
-                    screenManager.AddScreen(screenManager.screenList.options);
-                    break;
-                case 2:
                     OnCancel();
                     break;
             }
@@ -36,18 +27,19 @@ namespace Geimu {
             base.OnSelected(selection);
         }
 
-        // Exits the game
+        // Returns to main menu
         protected override void OnCancel() {
-            screenManager.game.Exit();
+            screenManager.screenList.menu.Activate();
+            screenManager.RemoveScreen(this);
 
             base.OnCancel();
         }
 
-        // Draws the menu
+        // Draws the options menu
         public override void Draw(GameTime gameTime) {
             screenManager.spriteBatch.Begin(SpriteSortMode.BackToFront, BlendState.AlphaBlend);
 
-            String title = "Main Menu";
+            String title = "Options";
             Vector2 pos = new Vector2(screenManager.bounds.Width / 2, 75);
             Vector2 origin = fontCambria.MeasureString(title) / 2;
 

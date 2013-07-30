@@ -8,12 +8,17 @@ namespace Geimu {
     public class ScreenReference {
         // References to screens
         protected MainMenu menuScreen;
+        protected OptionsScreen optionsScreen;
         protected GameScreen gameScreen;
         protected PauseScreen pauseScreen;
         protected EndScreen endScreen;
 
         public MainMenu menu {
             get { return menuScreen; }
+        }
+
+        public OptionsScreen options {
+            get { return optionsScreen; }
         }
 
         public GameScreen game {
@@ -30,9 +35,10 @@ namespace Geimu {
 
         public ScreenReference() {
             menuScreen = new MainMenu();
+            optionsScreen = new OptionsScreen();
             gameScreen = new GameScreen();
-            endScreen = new EndScreen();
             pauseScreen = new PauseScreen();
+            endScreen = new EndScreen();
         }
 
     }

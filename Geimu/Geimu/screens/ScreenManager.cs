@@ -61,7 +61,7 @@ namespace Geimu {
         // Starts up the game with the main menu
         public void Initialize() {
             mBounds = new Rectangle(0, 0, graphicsDevice.Viewport.Width, graphicsDevice.Viewport.Height);
-            AddScreen(new MainMenu());
+            AddScreen(screenList.menu);
         }
 
         // Creates a new sprite batch
