@@ -19,8 +19,6 @@ namespace Geimu {
 
         // Managers
         protected Game mGame;
-        protected GraphicsDevice mGraphicsDevice;
-        protected ContentManager mContentManager;
         protected SpriteBatch mSpriteBatch;
 
         public Game game {
@@ -28,26 +26,32 @@ namespace Geimu {
         }
 
         public GraphicsDevice graphicsDevice {
-            get { return mGraphicsDevice; }
+            get { return mGame.GraphicsDevice; }
         }
 
         public ContentManager contentManager {
-            get { return mContentManager; }
+            get { return mGame.Content; }
         }
 
         public SpriteBatch spriteBatch {
             get { return mSpriteBatch; }
         }
 
+        // Game boundaries
+        protected Rectangle mBounds;
+
+        public Rectangle bounds {
+            get { return mBounds; }
+        }
+
         // Constructs a new screen manager
         public ScreenManager(Game game) {
             mGame = game;
-            mContentManager = game.Content;
-            mGraphicsDevice = game.GraphicsDevice;
         }
 
         // Starts up the game with the main menu
         public void Initialize() {
+            mBounds = new Rectangle(0, 0, graphicsDevice.Viewport.Width, graphicsDevice.Viewport.Height);
             AddScreen(new GameScreen());
         }
 

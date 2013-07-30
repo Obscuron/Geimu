@@ -59,9 +59,10 @@ namespace Geimu {
         /// </summary>
         protected override void Initialize() {
             // TODO: Add your initialization logic here
-            bounds = new Rectangle(0, 0, GraphicsDevice.Viewport.Width, GraphicsDevice.Viewport.Height);
+            screenManager.Initialize();
+            //bounds = new Rectangle(0, 0, graphics.GraphicsDevice.Viewport.Width, graphics.GraphicsDevice.Viewport.Height);
 
-            NewGame();
+            //NewGame();
 
             base.Initialize();
 
@@ -90,11 +91,12 @@ namespace Geimu {
         /// </summary>
         protected override void LoadContent() {
             // Create a new SpriteBatch, which can be used to draw textures.
-            spriteBatch = new SpriteBatch(GraphicsDevice);
-            fontCambria = Content.Load<SpriteFont>("fonts\\Cambria");
+            screenManager.LoadContent();
+            //spriteBatch = new SpriteBatch(GraphicsDevice);
+            //fontCambria = Content.Load<SpriteFont>("fonts\\Cambria");
 
             // TODO: use this.Content to load your game content here
-            Square.LoadContent(this.Content);
+            //Square.LoadContent(this.Content);
         }
 
         /// <summary>
@@ -121,22 +123,24 @@ namespace Geimu {
                 this.Exit();
             }
 
-            // TODO: Add your update logic here
-            switch (state) {
-                case STATE_PLAY:
-                    squareControl0.readInput();
-                    squareControl1.readInput();
+            screenManager.Update(gameTime);
 
-                    square0.Update();
-                    square1.Update();
-                    if (square0.IsDead() || square1.IsDead())
-                        state = STATE_END;
-                    break;
-                case STATE_END:
-                    if (Keyboard.GetState().IsKeyDown(Keys.R))
-                        NewGame();
-                    break;
-            }
+            // TODO: Add your update logic here
+            //switch (state) {
+            //    case STATE_PLAY:
+            //        squareControl0.readInput();
+            //        squareControl1.readInput();
+
+            //        square0.Update();
+            //        square1.Update();
+            //        if (square0.IsDead() || square1.IsDead())
+            //            state = STATE_END;
+            //        break;
+            //    case STATE_END:
+            //        if (Keyboard.GetState().IsKeyDown(Keys.R))
+            //            NewGame();
+            //        break;
+            //}
 
             base.Update(gameTime);
         }
@@ -149,11 +153,12 @@ namespace Geimu {
             GraphicsDevice.Clear(Color.CornflowerBlue);
 
             // TODO: Add your drawing code here
-            square0.Draw(spriteBatch);
-            square1.Draw(spriteBatch);
+            screenManager.Draw(gameTime);
+            //square0.Draw(spriteBatch);
+            //square1.Draw(spriteBatch);
 
-            if (state == STATE_END)
-                DrawEnd(square0.IsDead());
+            //if (state == STATE_END)
+            //    DrawEnd(square0.IsDead());
 
             base.Draw(gameTime);
         }
