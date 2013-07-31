@@ -67,12 +67,13 @@ namespace Geimu {
             if (controller == null)
                 return;
 
-            CalculateOrigin(menuEntries[0]);
-            Vector2 curPos = menuPos - origin * menuScale;
+            Vector2 curPos = menuPos;
             bool mouseSelect = false;
 
             for (int i = 0; i < menuEntries.Count; i++) {
-                Rectangle textBounds = new Rectangle((int)curPos.X, (int)curPos.Y, (int)(fontCambria.MeasureString(menuEntries[i]).X * menuScale), (int)(fontCambria.LineSpacing * menuScale));
+                CalculateOrigin(menuEntries[i]);
+                Vector2 cornerPos = curPos - origin * menuScale;
+                Rectangle textBounds = new Rectangle((int)cornerPos.X, (int)cornerPos.Y, (int)(fontCambria.MeasureString(menuEntries[i]).X * menuScale), (int)(fontCambria.LineSpacing * menuScale));
                 if (controller.curBounded(textBounds)) {
                     mouseSelect = true;
                     menuChoice = i;
