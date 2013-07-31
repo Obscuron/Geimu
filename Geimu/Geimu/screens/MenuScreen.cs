@@ -67,16 +67,35 @@ namespace Geimu {
             if (controller == null)
                 return;
 
-            if (controller.prev) {
-                menuChoice--;
-                if (menuChoice < 0)
-                    menuChoice = menuEntries.Count - 1;
+            CalculateOrigin(menuEntries[0]);
+            Vector2 curPos = menuPos - origin * menuScale;
+            bool mouseSelect = false;
+
+            for (int i = 0; i < menuEntries.Count; i++) {
+                Rectangle textBounds = new Rectangle((int)curPos.X, (int)curPos.Y, (int)(fontCambria.MeasureString(menuEntries[i]).X * menuScale), (int)(fontCambria.LineSpacing * menuScale));
+                if (controller.curBounded(textBounds)) {
+                    mouseSelect = true;
+                    menuChoice = i;
+                    if (controller.released && controller.lastBounded(textBounds)) {
+                        OnSelected(menuChoice);
+                    }
+                    break;
+                }
+                curPos.Y += fontCambria.LineSpacing * menuScale;
             }
 
-            if (controller.next) {
-                menuChoice++;
-                if (menuChoice >= menuEntries.Count)
-                    menuChoice = 0;
+            if (!mouseSelect) {
+                if (controller.prev) {
+                    menuChoice--;
+                    if (menuChoice < 0)
+                        menuChoice = menuEntries.Count - 1;
+                }
+
+                if (controller.next) {
+                    menuChoice++;
+                    if (menuChoice >= menuEntries.Count)
+                        menuChoice = 0;
+                }
             }
 
             if (controller.select)
@@ -88,6 +107,7 @@ namespace Geimu {
             base.Update(gameTime);
         }
 
+        // Handles input
         public override void HandleInput(InputState input) {
             controller.readInput(input);
 
@@ -109,10 +129,7 @@ namespace Geimu {
                     scale *= 1 + (float)(Math.Sin(gameTime.TotalGameTime.TotalSeconds) + 1) * 0.05f;
                 }
 
-                if (menuJustify == 1)
-                    origin.X = fontCambria.MeasureString(menuEntries[i]).X / 2;
-                else if (menuJustify == 2)
-                    origin.X = fontCambria.MeasureString(menuEntries[i]).X;
+                CalculateOrigin(menuEntries[i]);
 
                 screenManager.spriteBatch.DrawString(fontCambria, menuEntries[i], curPos, tint, 0, origin, scale, SpriteEffects.None, 0);
 
@@ -122,6 +139,13 @@ namespace Geimu {
             screenManager.spriteBatch.End();
 
             base.Draw(gameTime);
+        }
+
+        protected void CalculateOrigin(String text) {
+            if (menuJustify == 1)
+                origin.X = fontCambria.MeasureString(text).X / 2;
+            else if (menuJustify == 2)
+                origin.X = fontCambria.MeasureString(text).X;
         }
 
         // Draws white text with black border, assumes spritebatch has already began. Font: Cambria
