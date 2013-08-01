@@ -30,6 +30,11 @@ namespace Geimu {
             return (curKeyboard.IsKeyDown(key) && prevKeyboard.IsKeyUp(key));
         }
 
+        // Checks if key was newly released
+        public bool IsNewKeyRelease(Keys key) {
+            return (curKeyboard.IsKeyUp(key) && prevKeyboard.IsKeyDown(key));
+        }
+
         // Wraps current keyboard
         public bool IsKeyDown(Keys key) {
             return curKeyboard.IsKeyDown(key);

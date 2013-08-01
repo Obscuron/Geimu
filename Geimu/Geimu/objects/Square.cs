@@ -64,6 +64,7 @@ namespace Geimu {
         protected Rectangle mSize;
 
         protected int refire = 0;
+        protected bool walk = false;
 
         // Location data
         public Vector2 center {
@@ -156,25 +157,33 @@ namespace Geimu {
             if (mController == null)
                 return;
 
-            float vel;
+            if (mSize == new Rectangle())
+                mSize.Width = mSize.Height = (int)(SIZE * mScale);
 
-            if (!mController.walk) {
-                vel = VEL;
+            if (mController.unwalk) {
+                walk = false;
                 mSize.Height = (int)(SIZE * mScale);
                 if (Collided())
-                    mPos.Y -= mSize.Height / 2;
+                    mPos.Y = enemySquare.bot + mSize.Height;
             }
-            else {
-                vel = VEL_SLOW;
+            if (mController.walk) {
+                walk = true;
                 mSize.Height = (int)(SIZE / 2 * mScale);
             }
 
-            mSize.Width = (int)(SIZE * mScale);
+            float vel;
+
+            if (walk) {
+                vel = VEL_SLOW;
+                Console.WriteLine(mPos);
+            }
+            else
+                vel = VEL;
 
             mVel.X = mController.xDir * vel;
             mVel.Y = mController.yDir * vel;
 
-            mPos += mVel;
+            HandleMovement();
 
             if (refire == 0 && mController.fire) {
                 Vector2 pPos = new Vector2(mPos.X + (mSize.Width / 2), mPos.Y - (mSize.Height / 2));
@@ -190,12 +199,29 @@ namespace Geimu {
             if (refire > 0)
                 refire--;
 
-            HandleWalls();
-
-            HandleEnemy();
-
             mProj.Update();
 
+        }
+
+        // Handles movement of squares to prevent collisions
+        protected void HandleMovement() {
+            mPos.X += mVel.X;
+            if (Collided()) {
+                if (mController.xDir == 1)
+                    mPos.X = enemySquare.left - mSize.Width;
+                else if (mController.xDir == -1)
+                    mPos.X = enemySquare.right;
+            }
+
+            mPos.Y += mVel.Y;
+            if (Collided()) {
+                if (mController.yDir == 1)
+                    mPos.Y = enemySquare.top;
+                else if (mController.yDir == -1)
+                    mPos.Y = enemySquare.bot + mSize.Height;
+            }
+
+            HandleWalls();
         }
 
         // Handles collisions against walls
@@ -209,29 +235,6 @@ namespace Geimu {
                 mPos.Y = mBounds.Y + mSize.Height;
             else if (mPos.Y > mBounds.Height)
                 mPos.Y = mBounds.Height;
-        }
-
-        // Handles collisions against the enemy square
-        protected void HandleEnemy() {
-            if (Collided()) {
-                int horiz = int.MaxValue;
-                int vert = int.MaxValue;
-
-                if (mController.xDir == 1)
-                    horiz = Math.Abs(right - enemySquare.left);
-                else if (mController.xDir == -1)
-                    horiz = Math.Abs(enemySquare.right - left);
-
-                if (mController.yDir == 1)
-                    vert = Math.Abs(bot - enemySquare.top);
-                else if (mController.yDir == -1)
-                    vert = Math.Abs(enemySquare.bot - top);
-
-                if (horiz <= vert)
-                    mPos.X -= horiz * mController.xDir;
-                else
-                    mPos.Y -= vert * mController.yDir;
-            }
         }
 
         // Checks for collisions against the enemy square
@@ -256,7 +259,7 @@ namespace Geimu {
             spriteBatch.Begin(SpriteSortMode.BackToFront, BlendState.AlphaBlend);
 
             Rectangle sector;
-            if (!mController.walk)
+            if (!walk)
                 sector = new Rectangle(0, 0, SIZE, SIZE);
             else
                 sector = new Rectangle(SIZE + 2, 0, SIZE, SIZE / 2);

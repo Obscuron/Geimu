@@ -12,18 +12,15 @@ namespace Geimu {
         // Player id
         protected int mPlayer;
 
+        // Input state
+        InputState inputState;
+
         // Controls for both players
         protected ControlsData mControls;
 
         // 1 = down/right, -1 = up/left, 0 = still
         private int mXdir;
         private int mYdir;
-
-        // true = walking
-        private bool mWalk;
-
-        // true = firing
-        private bool mFire;
 
         public int xDir {
             get { return mXdir; }
@@ -34,11 +31,15 @@ namespace Geimu {
         }
 
         public bool walk {
-            get { return mWalk; }
+            get { return inputState.IsNewKeyPress(mControls.walk[mPlayer]); }
+        }
+
+        public bool unwalk {
+            get { return inputState.IsNewKeyRelease(mControls.walk[mPlayer]); }
         }
 
         public bool fire {
-            get { return mFire; }
+            get { return inputState.IsKeyDown(mControls.fire[mPlayer]);  }
         }
 
         // Previous directions
@@ -62,27 +63,19 @@ namespace Geimu {
 
         // Reads input from keyboard and updates fields
         public void readInput(InputState input) {
-            KeyboardState state = Keyboard.GetState();
+            inputState = input;
 
             mXdir = mYdir = 0;
-            mWalk = false;
-            mFire = false;
 
-            if (state.IsKeyDown(mControls.up[mPlayer]) && !state.IsKeyDown(mControls.down[mPlayer]))
+            if (input.IsKeyDown(mControls.up[mPlayer]) && !input.IsKeyDown(mControls.down[mPlayer]))
                 mYdir = -1;
-            else if (state.IsKeyDown(mControls.down[mPlayer]) && !state.IsKeyDown(mControls.up[mPlayer]))
+            else if (input.IsKeyDown(mControls.down[mPlayer]) && !input.IsKeyDown(mControls.up[mPlayer]))
                 mYdir = 1;
 
-            if (state.IsKeyDown(mControls.left[mPlayer]) && !state.IsKeyDown(mControls.right[mPlayer]))
+            if (input.IsKeyDown(mControls.left[mPlayer]) && !input.IsKeyDown(mControls.right[mPlayer]))
                 mXdir = -1;
-            if (state.IsKeyDown(mControls.right[mPlayer]) && !state.IsKeyDown(mControls.left[mPlayer]))
+            if (input.IsKeyDown(mControls.right[mPlayer]) && !input.IsKeyDown(mControls.left[mPlayer]))
                 mXdir = 1;
-
-            if (state.IsKeyDown(mControls.walk[mPlayer]))
-                mWalk = true;
-
-            if (state.IsKeyDown(mControls.fire[mPlayer]))
-                mFire = true;
 
             if (mXdir != 0 || mYdir != 0) {
                 mXdirPrev = mXdir;
