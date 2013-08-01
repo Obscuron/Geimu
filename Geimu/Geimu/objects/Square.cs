@@ -1,5 +1,4 @@
-﻿
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -43,6 +42,7 @@ namespace Geimu {
         protected Square mEnemySquare;
 
         public Square enemySquare {
+            get { return mEnemySquare; }
             set { mEnemySquare = mProj.enemySquare = value; }
         }
 
@@ -64,6 +64,27 @@ namespace Geimu {
         protected Rectangle mSize;
 
         protected int refire = 0;
+
+        // Location data
+        public Vector2 center {
+            get { return mPos + new Vector2(mSize.Width / 2, -mSize.Height / 2); }
+        }
+
+        public int top {
+            get { return (int)mPos.Y - mSize.Height; }
+        }
+
+        public int bot {
+            get { return (int)mPos.Y; }
+        }
+
+        public int left {
+            get { return (int)mPos.X; }
+        }
+
+        public int right {
+            get { return (int)mPos.X + mSize.Width; }
+        }
 
         // Drawing data
         protected float mScale = 1.0f;
@@ -122,7 +143,7 @@ namespace Geimu {
             return mHealth == 0;
         }
 
-        // Returns if the vector is inside the enemy square
+        // Returns if the vector is inside the square
         public bool IsInside(Vector2 pos) {
             if (pos.X > mPos.X && pos.X < mPos.X + mSize.Width)
                 if (pos.Y > mPos.Y - mSize.Height && pos.Y < mPos.Y)
@@ -169,12 +190,14 @@ namespace Geimu {
 
             HandleWalls();
 
+            HandleEnemy();
+
             mProj.Update();
 
         }
 
         // Handles collisions against walls
-        private void HandleWalls() {
+        protected void HandleWalls() {
             if (mPos.X < mBounds.X)
                 mPos.X = mBounds.X;
             else if (mPos.X + mSize.Width > mBounds.Width)
@@ -184,6 +207,43 @@ namespace Geimu {
                 mPos.Y = mBounds.Y + mSize.Height;
             else if (mPos.Y > mBounds.Height)
                 mPos.Y = mBounds.Height;
+        }
+
+        // Handles collisions against the enemy square
+        protected void HandleEnemy() {
+            if (Collided()) {
+                int horiz = int.MaxValue;
+                int vert = int.MaxValue;
+
+                if (mController.xDir == 1)
+                    horiz = Math.Abs(right - enemySquare.left);
+                else if (mController.xDir == -1)
+                    horiz = Math.Abs(enemySquare.right - left);
+
+                if (mController.yDir == 1)
+                    vert = Math.Abs(bot - enemySquare.top);
+                else if (mController.yDir == -1)
+                    vert = Math.Abs(enemySquare.bot - top);
+
+                if (horiz <= vert)
+                    mPos.X -= horiz * mController.xDir;
+                else
+                    mPos.Y -= vert * mController.yDir;
+            }
+        }
+
+        // Checks for collisions against the enemy square
+        protected bool Collided() {
+            if (top >= enemySquare.bot)
+                return false;
+            if (bot <= enemySquare.top)
+                return false;
+            if (right <= enemySquare.left)
+                return false;
+            if (left >= enemySquare.right)
+                return false;
+
+            return true;
         }
 
         // Draws the Square along with healthbar and projectiles

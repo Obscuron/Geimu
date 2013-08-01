@@ -153,15 +153,9 @@ namespace Geimu {
 
         // Handles collisions with other square
         private void HandleSquare(int id) {
-            Vector2[] offsets = { new Vector2(mSize.X / 2, mSize.Y / 2), new Vector2(mSize.X / 2, -mSize.Y / 2), 
-                                  new Vector2(-mSize.X / 2, mSize.Y / 2), new Vector2(-mSize.X / 2, -mSize.Y / 2) };
-
-            foreach (Vector2 offset in offsets) {
-                if (mEnemySquare.IsInside(queue[id].pos + offset)) {
-                    queue[id].hit = true;
-                    mEnemySquare.Damage(DMG);
-                    break;
-                }
+            if (mEnemySquare.IsInside(queue[id].pos)) {
+                queue[id].hit = true;
+                mEnemySquare.Damage(DMG);
             }
         }
 
