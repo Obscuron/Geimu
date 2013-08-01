@@ -161,6 +161,8 @@ namespace Geimu {
             if (!mController.walk) {
                 vel = VEL;
                 mSize.Height = (int)(SIZE * mScale);
+                if (Collided())
+                    mPos.Y -= mSize.Height / 2;
             }
             else {
                 vel = VEL_SLOW;
