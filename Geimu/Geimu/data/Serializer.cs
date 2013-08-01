@@ -45,6 +45,11 @@ namespace Geimu {
             return obj;
         }
 
+        // Checks if file exists
+        public bool Exists(String fileName) {
+            return File.Exists(fileName);
+        }
+
     }
 
 }

@@ -18,11 +18,11 @@ namespace Geimu {
         protected List<Screen> addList = new List<Screen>();
 
         // Managers
-        protected Game mGame;
+        protected GameEngine mGame;
         protected SpriteBatch mSpriteBatch;
         protected ScreenReference mScreens;
 
-        public Game game {
+        public GameEngine game {
             get { return mGame; }
         }
 
@@ -42,6 +42,10 @@ namespace Geimu {
             get { return mScreens; }
         }
 
+        public DataReference dataReference {
+            get { return mGame.dataReference; }
+        }
+
         // Game boundaries
         protected Rectangle mBounds;
 
@@ -53,7 +57,7 @@ namespace Geimu {
         public InputState input = new InputState();
 
         // Constructs a new screen manager
-        public ScreenManager(Game game) {
+        public ScreenManager(GameEngine game) {
             mGame = game;
             mScreens = new ScreenReference();
         }

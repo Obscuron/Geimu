@@ -5,6 +5,7 @@ using System.Text;
 
 namespace Geimu {
 
+    // Class containing references to all screens
     public class ScreenReference {
         // References to screens
         protected MainMenu menuScreen;

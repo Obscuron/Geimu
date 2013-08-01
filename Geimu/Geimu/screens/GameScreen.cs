@@ -28,8 +28,8 @@ namespace Geimu {
 
         // Creates objects for a new game
         protected void NewGame() {
-            square0 = new Square(200, 300, 0, screenManager.bounds);
-            square1 = new Square(500, 300, 1, 0.75f, 0.0f, screenManager.bounds);
+            square0 = new Square(200, 300, 0, screenManager.bounds, screenManager.dataReference.controls);
+            square1 = new Square(500, 300, 1, 0.75f, 0.0f, screenManager.bounds, screenManager.dataReference.controls);
 
             squareControl0 = square0.controller;
             squareControl1 = square1.controller;

@@ -9,12 +9,11 @@ namespace Geimu {
 
     // Class for reading input from keyboard
     public class SquareController {
-        // Keyboard keys for different players
-        public readonly Keys[,] PLAYER_KEYS = { { Keys.W, Keys.S, Keys.A, Keys.D, Keys.LeftShift, Keys.Space },
-                                                { Keys.Up, Keys.Down, Keys.Left, Keys.Right, Keys.RightShift, Keys.RightControl } };
-
         // Player id
         protected int mPlayer;
+
+        // Controls for both players
+        protected ControlsData mControls;
 
         // 1 = down/right, -1 = up/left, 0 = still
         private int mXdir;
@@ -55,40 +54,34 @@ namespace Geimu {
         }
 
         // Constructs a controller for a given player id
-        public SquareController(int id) {
+        public SquareController(int id, ControlsData controls) {
             if (id > 1) id = 0;
             mPlayer = id;
+            mControls = controls;
         }
 
         // Reads input from keyboard and updates fields
         public void readInput(InputState input) {
             KeyboardState state = Keyboard.GetState();
-            Keys up, down, left, right, slow, fire;
-            up = PLAYER_KEYS[mPlayer, 0];
-            down = PLAYER_KEYS[mPlayer, 1];
-            left = PLAYER_KEYS[mPlayer, 2];
-            right = PLAYER_KEYS[mPlayer, 3];
-            slow = PLAYER_KEYS[mPlayer, 4];
-            fire = PLAYER_KEYS[mPlayer, 5];
 
             mXdir = mYdir = 0;
             mWalk = false;
             mFire = false;
 
-            if (state.IsKeyDown(up) && !state.IsKeyDown(down))
+            if (state.IsKeyDown(mControls.up[mPlayer]) && !state.IsKeyDown(mControls.down[mPlayer]))
                 mYdir = -1;
-            else if (state.IsKeyDown(down) && !state.IsKeyDown(up))
+            else if (state.IsKeyDown(mControls.down[mPlayer]) && !state.IsKeyDown(mControls.up[mPlayer]))
                 mYdir = 1;
 
-            if (state.IsKeyDown(left) && !state.IsKeyDown(right))
+            if (state.IsKeyDown(mControls.left[mPlayer]) && !state.IsKeyDown(mControls.right[mPlayer]))
                 mXdir = -1;
-            if (state.IsKeyDown(right) && !state.IsKeyDown(left))
+            if (state.IsKeyDown(mControls.right[mPlayer]) && !state.IsKeyDown(mControls.left[mPlayer]))
                 mXdir = 1;
 
-            if (state.IsKeyDown(slow))
+            if (state.IsKeyDown(mControls.walk[mPlayer]))
                 mWalk = true;
 
-            if (state.IsKeyDown(fire))
+            if (state.IsKeyDown(mControls.fire[mPlayer]))
                 mFire = true;
 
             if (mXdir != 0 || mYdir != 0) {

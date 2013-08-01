@@ -25,8 +25,10 @@ namespace Geimu {
 
         // Graphics Managers
         protected GraphicsDeviceManager graphics;
-        protected SpriteBatch spriteBatch;
         protected ScreenManager screenManager;
+
+        // Reference to data handlers
+        public DataReference dataReference;
 
         // TODO: audio
 
@@ -48,6 +50,7 @@ namespace Geimu {
             graphics.PreferredBackBufferHeight = 600;
             graphics.ApplyChanges();
 
+            dataReference = new DataReference();
             screenManager = new ScreenManager(this);
         }
 

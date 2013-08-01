@@ -61,11 +61,11 @@ namespace Geimu {
         protected float mRot = 0.0f;
 
         // Construct a new Square at a location with default size.
-        public Square(int x, int y, int id, Rectangle bounds) {
+        public Square(int x, int y, int id, Rectangle bounds, ControlsData controls) {
             mPos = new Vector2(x, y);
             mVel = new Vector2(0, 0);
 
-            mController = new SquareController(id);
+            mController = new SquareController(id, controls);
 
             mBounds = new Rectangle(0, 75, bounds.Width, bounds.Height);
 
@@ -83,8 +83,8 @@ namespace Geimu {
         }
 
         // Constructs a new Square given size and rotation
-        public Square(int x, int y, int id, float scale, float rot, Rectangle bounds)
-            : this(x, y, id, bounds) {
+        public Square(int x, int y, int id, float scale, float rot, Rectangle bounds, ControlsData controls)
+            : this(x, y, id, bounds, controls) {
             mScale = scale;
             mRot = rot;
         }
