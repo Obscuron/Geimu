@@ -43,12 +43,17 @@ namespace Geimu {
         protected Square mEnemySquare;
 
         public Square enemySquare {
-            set { mEnemySquare = value;  mProj.enemySquare = value; }
+            set { mEnemySquare = mProj.enemySquare = value; }
         }
 
         // Health Bar for the Square
         protected HealthBar mHealthBar;
         protected int mHealth;
+
+        public int health {
+            get { return mHealth; }
+            set { mHealth = mHealthBar.health = value; }
+        }
 
         // Boundaries of the window
         protected Rectangle mBounds;
@@ -82,7 +87,7 @@ namespace Geimu {
                 healthBounds.X = bounds.Width - 16;
 
             mHealth = MAX_HEALTH;
-            mHealthBar = new HealthBar(ref mHealth, MAX_HEALTH, healthBounds, id);
+            mHealthBar = new HealthBar(MAX_HEALTH, healthBounds, id);
 
             mSize = new Rectangle();
         }
@@ -109,7 +114,7 @@ namespace Geimu {
 
         // Damages the Square
         public void Damage(int amount) {
-            mHealth = (int)MathHelper.Clamp(mHealth - amount, 0, MAX_HEALTH);
+            health = (int)MathHelper.Clamp(mHealth - amount, 0, MAX_HEALTH);
         }
 
         // Returns true if the square is dead

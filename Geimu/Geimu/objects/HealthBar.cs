@@ -21,10 +21,14 @@ namespace Geimu {
         protected int mMaxHealth;
         protected int mHealth;
 
+        public int health {
+            set { mHealth = value; }
+        }
+
         // Creates a new healthbar set to a certain max health
-        public HealthBar(ref int health, int maxHealth, Rectangle location, int id) {
+        public HealthBar(int maxHealth, Rectangle location, int id) {
             mMaxHealth = maxHealth;
-            mHealth = health;
+            mHealth = maxHealth;
 
             mLoc = location;
             mPlayer = id;
