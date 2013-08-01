@@ -21,12 +21,12 @@ namespace Geimu {
         protected override void OnSelected(int selection) {
             switch (selection) {
                 case 0:
-                    screenManager.AddScreen(screenManager.screenList.game);
+                    screenManager.AddScreen(screenManager.screenReference.game);
                     screenManager.RemoveScreen(this);
                     break;
                 case 1:
                     Deactivate();
-                    screenManager.AddScreen(screenManager.screenList.options);
+                    screenManager.AddScreen(screenManager.screenReference.options);
                     break;
                 case 2:
                     OnCancel();

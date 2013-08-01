@@ -57,7 +57,7 @@ namespace Geimu {
             square1.Update();
             if (square0.IsDead() || square1.IsDead()) {
                 updateState = false;
-                screenManager.AddScreen(screenManager.screenList.end);
+                screenManager.AddScreen(screenManager.screenReference.end);
             }
 
             base.Update(gameTime);
@@ -67,7 +67,7 @@ namespace Geimu {
         public override void HandleInput(InputState input) {
             if (input.IsNewKeyPress(Keys.Escape)) {
                 Deactivate();
-                screenManager.AddScreen(screenManager.screenList.pause);
+                screenManager.AddScreen(screenManager.screenReference.pause);
             }
 
             squareControl0.readInput(input);

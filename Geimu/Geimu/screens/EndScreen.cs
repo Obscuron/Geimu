@@ -38,7 +38,7 @@ namespace Geimu {
         // Canceling will exit the game
         protected override void OnCancel() {
             screenManager.RemoveAll();
-            screenManager.AddScreen(screenManager.screenList.menu);
+            screenManager.AddScreen(screenManager.screenReference.menu);
 
             base.OnCancel();
         }
@@ -46,7 +46,7 @@ namespace Geimu {
         // Replays the game
         protected void Retry() {
             screenManager.RemoveScreen(this);
-            screenManager.screenList.game.Initialize();
+            screenManager.screenReference.game.Initialize();
         }
 
         // Waits for R to reset the game
@@ -72,7 +72,7 @@ namespace Geimu {
 
             Rectangle bounds = screenManager.bounds;
 
-            String text = String.Format("Player {0} Wins!", screenManager.screenList.game.Winner());
+            String text = String.Format("Player {0} Wins!", screenManager.screenReference.game.Winner());
             Vector2 pos = new Vector2(bounds.Width / 2, bounds.Height / 2);
             Vector2 origin = fontCambria.MeasureString(text) / 2;
 

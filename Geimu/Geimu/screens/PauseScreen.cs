@@ -27,11 +27,11 @@ namespace Geimu {
                     break;
                 case 1:
                     screenManager.RemoveScreen(this);
-                    screenManager.screenList.game.Initialize();
+                    screenManager.screenReference.game.Initialize();
                     break;
                 case 2:
                     screenManager.RemoveAll();
-                    screenManager.AddScreen(screenManager.screenList.menu);
+                    screenManager.AddScreen(screenManager.screenReference.menu);
                     break;
             }
 
@@ -41,7 +41,7 @@ namespace Geimu {
         // Returns back to game
         protected override void OnCancel() {
             screenManager.RemoveScreen(this);
-            screenManager.screenList.game.Activate();
+            screenManager.screenReference.game.Activate();
 
             base.OnCancel();
         }

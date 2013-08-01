@@ -109,8 +109,9 @@
   <ItemGroup>
     <Compile Include="controllers\MenuController.cs" />
     <Compile Include="controllers\InputState.cs" />
+    <Compile Include="screens\ControlsScreen.cs" />
     <Compile Include="data\ControlsData.cs" />
-    <Compile Include="data\DataHandler.cs" />
+    <Compile Include="data\DataReference.cs" />
     <Compile Include="screens\OptionsScreen.cs" />
     <Compile Include="screens\ScreenReference.cs" />
     <Compile Include="screens\EndScreen.cs" />

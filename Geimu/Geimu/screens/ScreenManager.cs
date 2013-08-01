@@ -38,7 +38,7 @@ namespace Geimu {
             get { return mSpriteBatch; }
         }
 
-        public ScreenReference screenList {
+        public ScreenReference screenReference {
             get { return mScreens; }
         }
 
@@ -65,7 +65,7 @@ namespace Geimu {
         // Starts up the game with the main menu
         public void Initialize() {
             mBounds = new Rectangle(0, 0, graphicsDevice.Viewport.Width, graphicsDevice.Viewport.Height);
-            AddScreen(screenList.menu);
+            AddScreen(screenReference.menu);
         }
 
         // Creates a new sprite batch
