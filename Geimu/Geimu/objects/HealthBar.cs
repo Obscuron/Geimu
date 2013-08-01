@@ -22,9 +22,9 @@ namespace Geimu {
         protected int mHealth;
 
         // Creates a new healthbar set to a certain max health
-        public HealthBar(int maxHealth, Rectangle location, int id) {
+        public HealthBar(ref int health, int maxHealth, Rectangle location, int id) {
             mMaxHealth = maxHealth;
-            mHealth = maxHealth;
+            mHealth = health;
 
             mLoc = location;
             mPlayer = id;
@@ -33,15 +33,6 @@ namespace Geimu {
         // Loads texture into memory
         public static void LoadContent(ContentManager content) {
             sSprite = content.Load<Texture2D>("images\\HealthBar");
-        }
-
-        // Damages the health by a certain amount
-        public void Damage(int amount) {
-            mHealth = (int) MathHelper.Clamp(mHealth - amount, 0, mMaxHealth);
-        }
-
-        public bool IsDead() {
-            return (mHealth == 0 && mMaxHealth != 0);
         }
 
         // Draws the healthbar

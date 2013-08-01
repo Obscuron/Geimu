@@ -39,12 +39,16 @@ namespace Geimu {
         // Projectiles that the Square has fired
         protected ProjectileQueue mProj;
 
+        // The enemy square
+        protected Square mEnemySquare;
+
         public Square enemySquare {
-            set { mProj.enemySquare = value; }
+            set { mEnemySquare = value;  mProj.enemySquare = value; }
         }
 
         // Health Bar for the Square
-        protected HealthBar mHealth;
+        protected HealthBar mHealthBar;
+        protected int mHealth;
 
         // Boundaries of the window
         protected Rectangle mBounds;
@@ -77,7 +81,8 @@ namespace Geimu {
             if (id == 1)
                 healthBounds.X = bounds.Width - 16;
 
-            mHealth = new HealthBar(MAX_HEALTH, healthBounds, id);
+            mHealth = MAX_HEALTH;
+            mHealthBar = new HealthBar(ref mHealth, MAX_HEALTH, healthBounds, id);
 
             mSize = new Rectangle();
         }
@@ -104,12 +109,12 @@ namespace Geimu {
 
         // Damages the Square
         public void Damage(int amount) {
-            mHealth.Damage(amount);
+            mHealth = (int)MathHelper.Clamp(mHealth - amount, 0, MAX_HEALTH);
         }
 
         // Returns true if the square is dead
         public bool IsDead() {
-            return mHealth.IsDead();
+            return mHealth == 0;
         }
 
         // Returns if the vector is inside the enemy square
@@ -179,7 +184,7 @@ namespace Geimu {
         // Draws the Square along with healthbar and projectiles
         public void Draw(SpriteBatch spriteBatch) {
 
-            mHealth.Draw(spriteBatch);
+            mHealthBar.Draw(spriteBatch);
 
             spriteBatch.Begin(SpriteSortMode.BackToFront, BlendState.AlphaBlend);
 
