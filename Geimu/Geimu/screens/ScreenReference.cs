@@ -11,6 +11,7 @@ namespace Geimu {
         protected MainMenu menuScreen;
         protected OptionsScreen optionsScreen;
         protected ControlsScreen controlsScreen;
+        protected ControlsChooser chooserScreen;
         protected GameScreen gameScreen;
         protected PauseScreen pauseScreen;
         protected EndScreen endScreen;
@@ -25,6 +26,10 @@ namespace Geimu {
 
         public ControlsScreen controls {
             get { return controlsScreen; }
+        }
+
+        public ControlsChooser chooser {
+            get { return chooserScreen; }
         }
 
         public GameScreen game {
@@ -43,6 +48,7 @@ namespace Geimu {
             menuScreen = new MainMenu();
             optionsScreen = new OptionsScreen();
             controlsScreen = new ControlsScreen();
+            chooserScreen = new ControlsChooser();
             gameScreen = new GameScreen();
             pauseScreen = new PauseScreen();
             endScreen = new EndScreen();

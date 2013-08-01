@@ -7,6 +7,7 @@ using Microsoft.Xna.Framework.Graphics;
 
 namespace Geimu {
 
+    // Screen containing options
     public class OptionsScreen : MenuScreen {
 
         // Constructor
@@ -15,11 +16,13 @@ namespace Geimu {
             menuEntries.Add("Back");
         }
 
+        // Selected a certain option
         protected override void OnSelected(int selection) {
             switch (selection) {
                 case 0:
                     Deactivate();
                     screenManager.AddScreen(screenManager.screenReference.controls);
+                    screenManager.AddScreen(screenManager.screenReference.chooser);
                     break;
                 case 1:
                     OnCancel();

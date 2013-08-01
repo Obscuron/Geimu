@@ -28,7 +28,7 @@ namespace Geimu {
         }
 
         // Default keys
-        protected void defaultKeys() {
+        protected void Reset() {
             up = new Keys[] { Keys.W, Keys.Up };
             down = new Keys[] { Keys.S, Keys.Down };
             left = new Keys[] { Keys.A, Keys.Left };
@@ -47,7 +47,7 @@ namespace Geimu {
             if (serializer.Exists(filePath))
                 copyData(serializer.Deserialize(filePath));
             else {
-                defaultKeys();
+                Reset();
                 SaveData();
             }
         }
