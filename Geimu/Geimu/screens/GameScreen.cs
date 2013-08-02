@@ -70,8 +70,8 @@ namespace Geimu {
                 screenManager.AddScreen(screenManager.screenReference.pause);
             }
 
-            squareControl0.readInput(input);
-            squareControl1.readInput(input);
+            squareControl0.ReadInput(input);
+            squareControl1.ReadInput(input);
             
             base.HandleInput(input);
         }

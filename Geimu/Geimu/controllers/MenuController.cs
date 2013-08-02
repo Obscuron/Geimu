@@ -37,7 +37,7 @@ namespace Geimu {
         }
 
         // Reads the input
-        public void readInput(InputState input) {
+        public void ReadInput(InputState input) {
             inputState = input;
 
             if (inputState.IsNewMouseLeft())
@@ -45,12 +45,12 @@ namespace Geimu {
         }
 
         // Checks if current mouse is bounded by a rectangle
-        public bool curBounded(Rectangle bounds) {
+        public bool CurBounded(Rectangle bounds) {
             return Bounded(inputState.MousePos(), bounds);
         }
 
         // Checks if mouse was previously bounded by rectangle when held down
-        public bool lastBounded(Rectangle bounds) {
+        public bool LastBounded(Rectangle bounds) {
             return Bounded(mouseDownLocation, bounds);
         }
 

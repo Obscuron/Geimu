@@ -23,6 +23,7 @@ namespace Geimu {
             menuEntries.Add("Right");
             menuEntries.Add("Duck");
             menuEntries.Add("Shoot");
+            menuEntries.Add("Reset All");
             menuEntries.Add("Back");
 
             menuScale = 0.5f;
@@ -30,8 +31,12 @@ namespace Geimu {
 
         // Select menu choice
         protected override void OnSelected(int selection) {
-            if (selection == 12)
+            if (selection == 13)
                 OnCancel();
+            else if (selection == 12) {
+                screenManager.dataReference.controls.Reset();
+                screenManager.screenReference.chooser.GetKeys();
+            }
             else {
                 menuChoice = -1;
                 mUpdateState = false;
@@ -46,18 +51,19 @@ namespace Geimu {
             screenManager.screenReference.options.Activate();
             screenManager.RemoveScreen(this);
             screenManager.RemoveScreen(screenManager.screenReference.chooser);
+            screenManager.dataReference.controls.SaveData();
 
             base.OnCancel();
         }
 
         // Draws the menu
         public override void Draw(GameTime gameTime) {
-            menuPos = new Vector2(200, 150);
+            menuPos = new Vector2(200, 125);
 
             screenManager.spriteBatch.Begin(SpriteSortMode.BackToFront, BlendState.AlphaBlend);
 
             String title = "Controls";
-            Vector2 titlePos = new Vector2(screenManager.bounds.Width / 2, 75);
+            Vector2 titlePos = new Vector2(screenManager.bounds.Width / 2, 60);
             Vector2 titleOrigin = fontCambria.MeasureString(title) / 2;
 
             Vector2 pos1 = menuPos + new Vector2(-150, fontCambria.LineSpacing * 2.5f * menuScale);
@@ -72,6 +78,7 @@ namespace Geimu {
             base.Draw(gameTime);
         }
 
+        // Activates menu based on a choice
         public void Activate(int choice) {
             menuChoice = choice;
             Activate();

@@ -62,7 +62,7 @@ namespace Geimu {
         }
 
         // Reads input from keyboard and updates fields
-        public void readInput(InputState input) {
+        public void ReadInput(InputState input) {
             inputState = input;
 
             mXdir = mYdir = 0;

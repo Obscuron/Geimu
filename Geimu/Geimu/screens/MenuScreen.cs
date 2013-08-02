@@ -74,10 +74,10 @@ namespace Geimu {
                 CalculateOrigin(menuEntries[i]);
                 Vector2 cornerPos = curPos - origin * menuScale;
                 Rectangle textBounds = new Rectangle((int)cornerPos.X, (int)cornerPos.Y, (int)(fontCambria.MeasureString(menuEntries[i]).X * menuScale), (int)(fontCambria.LineSpacing * menuScale));
-                if (controller.curBounded(textBounds)) {
+                if (controller.CurBounded(textBounds)) {
                     mouseSelect = true;
                     menuChoice = i;
-                    if (controller.released && controller.lastBounded(textBounds)) {
+                    if (controller.released && controller.LastBounded(textBounds)) {
                         OnSelected(menuChoice);
                     }
                     break;
@@ -110,7 +110,7 @@ namespace Geimu {
 
         // Handles input
         public override void HandleInput(InputState input) {
-            controller.readInput(input);
+            controller.ReadInput(input);
 
             base.HandleInput(input);
         }

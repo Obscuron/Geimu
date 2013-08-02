@@ -44,6 +44,10 @@ namespace Geimu {
             return curKeyboard.IsKeyUp(key);
         }
 
+        public Keys[] GetKeys() {
+            return curKeyboard.GetPressedKeys();
+        }
+
         // Checks if mouse buttons are newly pressed
         public bool IsNewMouseLeft() {
             return curMouse.LeftButton == ButtonState.Pressed && prevMouse.LeftButton == ButtonState.Released;

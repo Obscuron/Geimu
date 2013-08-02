@@ -28,13 +28,14 @@ namespace Geimu {
         }
 
         // Default keys
-        protected void Reset() {
+        public void Reset() {
             up = new Keys[] { Keys.W, Keys.Up };
             down = new Keys[] { Keys.S, Keys.Down };
             left = new Keys[] { Keys.A, Keys.Left };
             right = new Keys[] { Keys.D, Keys.Right };
             walk = new Keys[] { Keys.LeftShift, Keys.RightShift };
             fire = new Keys[] { Keys.Space, Keys.RightControl };
+            SaveData();
         }
 
         // Saves controls
@@ -48,7 +49,6 @@ namespace Geimu {
                 copyData(serializer.Deserialize(filePath));
             else {
                 Reset();
-                SaveData();
             }
         }
 

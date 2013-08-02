@@ -48,7 +48,7 @@ namespace Geimu {
             screenManager.spriteBatch.Begin(SpriteSortMode.BackToFront, BlendState.AlphaBlend);
 
             String title = "Main Menu";
-            Vector2 pos = new Vector2(screenManager.bounds.Width / 2, 75);
+            Vector2 pos = new Vector2(screenManager.bounds.Width / 2, 60);
             Vector2 origin = fontCambria.MeasureString(title) / 2;
 
             DrawBorderedText(title, pos, origin);
