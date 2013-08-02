@@ -15,8 +15,10 @@ namespace Geimu {
         [NonSerialized]
         protected Serializer<GameData> serializer;
 
+        public SquareData Square0, Square1;
+
         public struct SquareData {
-            
+
         }
 
         public GameData(String file) {

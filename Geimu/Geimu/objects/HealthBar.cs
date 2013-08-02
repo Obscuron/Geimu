@@ -26,9 +26,9 @@ namespace Geimu {
         }
 
         // Creates a new healthbar set to a certain max health
-        public HealthBar(int maxHealth, Rectangle location, int id) {
+        public HealthBar(int curHealth, int maxHealth, Rectangle location, int id) {
             mMaxHealth = maxHealth;
-            mHealth = maxHealth;
+            mHealth = curHealth;
 
             mLoc = location;
             mPlayer = id;

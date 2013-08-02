@@ -109,7 +109,7 @@ namespace Geimu {
                 healthBounds.X = bounds.Width - 16;
 
             mHealth = MAX_HEALTH;
-            mHealthBar = new HealthBar(MAX_HEALTH, healthBounds, id);
+            mHealthBar = new HealthBar(mHealth, MAX_HEALTH, healthBounds, id);
 
             mSize = new Rectangle();
         }

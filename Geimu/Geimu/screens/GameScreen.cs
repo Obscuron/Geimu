@@ -44,11 +44,14 @@ namespace Geimu {
             base.LoadContent();
         }
 
-        // Returns the player numberfor the winner
-        public int Winner() {
-            if (square0.IsDead())
-                return 2;
-            else return 1;
+        // Returns the string for the end message
+        public String EndMessage() {
+            if (square0.IsDead() && square1.IsDead())
+                return "Draw Game!";
+            else if (square0.IsDead())
+                return "Player 2 Wins!";
+            else
+                return "Player 1 Wins!";
         }
 
         // Updates squares every tick

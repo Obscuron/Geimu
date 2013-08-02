@@ -72,7 +72,7 @@ namespace Geimu {
 
             Rectangle bounds = screenManager.bounds;
 
-            String text = String.Format("Player {0} Wins!", screenManager.screenReference.game.Winner());
+            String text = screenManager.screenReference.game.EndMessage();
             Vector2 pos = new Vector2(bounds.Width / 2, bounds.Height / 2);
             Vector2 origin = fontCambria.MeasureString(text) / 2;
 
