@@ -109,8 +109,8 @@
   <ItemGroup>
     <Compile Include="controllers\MenuController.cs" />
     <Compile Include="controllers\InputState.cs" />
-    <Compile Include="controllers\ControlsChooser.cs" />
-    <Compile Include="RebindController.cs" />
+    <Compile Include="screens\ControlsChooser.cs" />
+    <Compile Include="controllers\RebindController.cs" />
     <Compile Include="screens\ControlsScreen.cs" />
     <Compile Include="data\ControlsData.cs" />
     <Compile Include="data\DataReference.cs" />

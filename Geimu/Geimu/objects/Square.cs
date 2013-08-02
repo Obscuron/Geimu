@@ -139,6 +139,11 @@ namespace Geimu {
             health = (int)MathHelper.Clamp(mHealth - amount, 0, MAX_HEALTH);
         }
 
+        // Sets health of the square
+        public void SetHealth(int amount) {
+            health = (int)MathHelper.Clamp(amount, 0, MAX_HEALTH);
+        }
+
         // Returns true if the square is dead
         public bool IsDead() {
             return mHealth == 0;
@@ -173,10 +178,8 @@ namespace Geimu {
 
             float vel;
 
-            if (walk) {
+            if (walk)
                 vel = VEL_SLOW;
-                Console.WriteLine(mPos);
-            }
             else
                 vel = VEL;
 

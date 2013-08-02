@@ -12,7 +12,6 @@ namespace Geimu {
         // Save location
         [NonSerialized]
         protected String filePath;
-
         // Serializer
         [NonSerialized]
         protected Serializer<ControlsData> serializer;
