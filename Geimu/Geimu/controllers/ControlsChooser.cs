@@ -10,7 +10,9 @@ namespace Geimu {
     // Screen for modifying key config
     public class ControlsChooser : MenuScreen {
         // List of keys
-        String[] menuKeys = new String[12];
+        protected String[] menuKeys = new String[12];
+
+        protected bool isNew;
 
         // The controller for this screen
         protected static RebindController rebindController = new RebindController();
@@ -98,6 +100,11 @@ namespace Geimu {
                 return;
             }
 
+            if (isNew) {
+                isNew = false;
+                return;
+            }
+
             Keys? newKey = controller.GetNewKeyPress();
             if (newKey != null) {
                 menuKeys[menuChoice] = newKey.ToString();
@@ -122,6 +129,7 @@ namespace Geimu {
         public void Activate(int choice) {
             menuChoice = choice;
             menuEntries[choice] = "Press New Key";
+            isNew = true;
             Activate();
         }
 
