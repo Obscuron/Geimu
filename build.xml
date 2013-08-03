@@ -5,7 +5,8 @@
 	
 	<target name="increment_build_number">
 		<propertyfile file="build.properties">
-			<entry key="version" type="int" operation="+" default="1"/>
+			<entry key="version.old" type="int" operation="+" default="1" />
+			<entry key="version.next" type="int" operation="+" default="1" />
 		</propertyfile>
 	</target>
 
@@ -23,24 +24,30 @@
 		<delete file="${build.dir.temp}\Content\GameSave.sav" />
 	</target>
 	
-	<target name="compile">
-		<zip destfile="${build.dir.builds}\Geimu${build.version}.zip" >
+	<target name="zip">
+		<zip destfile="${build.dir.builds}\Geimu${version}.zip" >
 			<fileset dir="${build.dir.temp}" />
 		</zip>
 	</target>
 	
-	<target name="build">
+	<target name="compile">
 		<!-- Prep for the build -->
 		<antcall target="clean" />
 		<antcall target="prep" />
-		<antcall target="compile" />
+		<antcall target="zip" />
 
 		<!-- Clean up the temp now that we're done-->
 		<antcall target="clean" />
 	</target>
 
+	<target name="build">
+		<property name="version" value="${build.version.old}" />
+		<antcall target="compile" />
+	</target>
+
 	<target name="release">
 		<antcall target="increment_build_number" />
+		<property name="version" value="${build.version.next}" />
 		<antcall target="build" />
 	</target>
 
