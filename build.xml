@@ -1,66 +1,47 @@
 <?xml version="1.0" ?> 
 <project name="Geimu" default="build">
 	
-	<property file="build.properties" prefix="build"/>
-	<property file="build_number.properties" prefix="build_number"/>
+	<property file="build.properties" prefix="build" />
 	
 	<target name="increment_build_number">
-		<propertyfile file="build_number.properties">
-			<entry key="build_number" type="int" operation="+" default="1"/>
+		<propertyfile file="build.properties">
+			<entry key="version" type="int" operation="+" default="1"/>
 		</propertyfile>
 	</target>
 
 	<target name="clean">
-		<delete file="${build.dir.development}\mcp\src\minecraft\mcmod.info" />
-		<delete dir="${build.dir.development}\mcp\src\minecraft\obscuron" />
-		<delete dir="${build.dir.development}\mcp\reobf\minecraft" />
+		<delete dir="${build.dir.temp}" />
 	</target>
 	
 	<target name="prep">
-		<copy todir="${build.dir.development}\mcp\src\minecraft">
-			<fileset dir="${build.dir.development}\source\Modular Kinetics\common\" />
+		<mkdir dir="${build.dir.temp}" />
+		<copy todir="${build.dir.temp}">
+			<fileset dir="${build.dir.bin}" />
 		</copy>
+		<delete file="${build.dir.temp}\Geimu.pdb" />
+		<delete file="${build.dir.temp}\Content\Controls.conf" />
+		<delete file="${build.dir.temp}\Content\GameSave.sav" />
 	</target>
 	
-	<target name="recompile">
-		<exec dir="${build.dir.development}\mcp" executable="cmd" osfamily="windows">
-			<arg line="/c recompile.bat" />
-		</exec>
-		<exec dir="${build.dir.development}\mcp" executable="bash" osfamily="unix">
-			<arg line="recompile.sh" />
-		</exec>
-	</target>
-	
-	<target name="reobfuscate">
-		<exec dir="${build.dir.development}\mcp" executable="cmd" osfamily="windows">
-			<arg line="/c reobfuscate_srg.bat" />
-		</exec>
-		<exec dir="${build.dir.development}\mcp" executable="bash" osfamily="unix">
-			<arg line="reobfuscate_srg.sh" />
-		</exec>
+	<target name="compile">
+		<zip destfile="${build.dir.builds}\Geimu${build.version}.zip" >
+			<fileset dir="${build.dir.temp}" />
+		</zip>
 	</target>
 	
 	<target name="build">
 		<!-- Prep for the build -->
 		<antcall target="clean" />
 		<antcall target="prep" />
-		<antcall target="recompile" />
-		<antcall target="reobfuscate" />
-		
-		<!-- Build the jar -->
-		<mkdir dir="${build.dir.release}\${build.release.minecraft.version}\Modular Kinetics" />
-		<jar destfile="${build.dir.release}\${build.release.minecraft.version}\Modular Kinetics\ModularKinetics.jar">
-			<fileset dir="${build.dir.development}\mcp\src\minecraft\" includes="mcmod.info" />
-			<fileset dir="${build.dir.development}\mcp\reobf\minecraft" />
-			<fileset dir="${build.dir.development}\source\Modular Kinetics\resources" excludes="**/xcf/**" />
-		</jar>
-		
-		<!-- Clean up the MCP source now that we are done -->
+		<antcall target="compile" />
+
+		<!-- Clean up the temp now that we're done-->
 		<antcall target="clean" />
 	</target>
 
 	<target name="release">
-
+		<antcall target="increment_build_number" />
+		<antcall target="build" />
 	</target>
 
 </project>
