@@ -44,12 +44,12 @@ namespace Geimu {
 
         public virtual void Draw(GameTime gameTime) { }
 
-        public void Activate() {
+        public virtual void Activate() {
             mUpdateState = true;
             mDrawState = true;
         }
 
-        public void Deactivate() {
+        public virtual void Deactivate() {
             mUpdateState = false;
             mDrawState = false;
         }

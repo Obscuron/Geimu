@@ -38,8 +38,10 @@ namespace Geimu {
             get { return inputState.IsNewKeyRelease(mControls.walk[mPlayer]); }
         }
 
+        private bool delay = true;
+
         public bool fire {
-            get { return inputState.IsKeyDown(mControls.fire[mPlayer]);  }
+            get { return !delay && inputState.IsKeyDown(mControls.fire[mPlayer]);  }
         }
 
         // Previous directions
@@ -67,11 +69,18 @@ namespace Geimu {
             mYdirPrev = (int) prevDir.Y;
         }
 
+        public void Delay() {
+            delay = true;
+        }
+
         // Reads input from keyboard and updates fields
         public void ReadInput(InputState input) {
             inputState = input;
 
             mXdir = mYdir = 0;
+
+            if (delay && input.IsKeyUp(mControls.fire[mPlayer]))
+                delay = false;
 
             if (input.IsKeyDown(mControls.up[mPlayer]) && !input.IsKeyDown(mControls.down[mPlayer]))
                 mYdir = -1;

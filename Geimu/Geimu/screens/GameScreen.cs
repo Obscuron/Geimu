@@ -105,6 +105,15 @@ namespace Geimu {
             base.Draw(gameTime);
         }
 
+        public override void Activate() {
+            if (squareControl0 != null && squareControl1 != null) {
+                squareControl0.Delay();
+                squareControl1.Delay();
+            }
+
+            base.Activate();
+        }
+
     }
 
 }

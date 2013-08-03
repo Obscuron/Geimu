@@ -27,6 +27,7 @@ namespace Geimu {
             withCont.Add("Exit");
         }
 
+        // Initializes the menu
         public override void Initialize() {
             screenManager.dataReference.gameSave.LoadData();
             if (screenManager.dataReference.gameSave.isSave)
