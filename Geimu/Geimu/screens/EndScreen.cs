@@ -38,6 +38,7 @@ namespace Geimu {
         // Canceling will exit the game
         protected override void OnCancel() {
             screenManager.RemoveAll();
+            screenManager.dataReference.gameSave.Reset();
             screenManager.AddScreen(screenManager.screenReference.menu);
 
             base.OnCancel();
@@ -47,6 +48,7 @@ namespace Geimu {
         protected void Retry() {
             screenManager.RemoveScreen(this);
             screenManager.screenReference.game.Initialize();
+            screenManager.screenReference.game.NewGame();
         }
 
         // Waits for R to reset the game
