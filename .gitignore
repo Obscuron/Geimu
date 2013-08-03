@@ -9,6 +9,7 @@ Geimu/Geimu/bin/
 Geimu/Geimu/obj/
 Geimu/Content/bin/
 Geimu/Content/obj/
+Builds/
 
 # Others
 *.cache
