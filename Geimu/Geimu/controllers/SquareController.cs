@@ -43,8 +43,8 @@ namespace Geimu {
         }
 
         // Previous directions
-        private int mXdirPrev = 1;
-        private int mYdirPrev = 0;
+        private int mXdirPrev;
+        private int mYdirPrev;
 
         public int xDirPrev {
             get { return mXdirPrev; }
@@ -59,6 +59,12 @@ namespace Geimu {
             if (id > 1) id = 0;
             mPlayer = id;
             mControls = controls;
+        }
+
+        // Sets default previous directions
+        public void SetPrev(Vector2 prevDir) {
+            mXdirPrev = (int) prevDir.X;
+            mYdirPrev = (int) prevDir.Y;
         }
 
         // Reads input from keyboard and updates fields

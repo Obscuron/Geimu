@@ -155,10 +155,9 @@ namespace Geimu {
             health = data.health;
             mScale = data.scale;
             mPos = data.pos;
-            if (data.hasProj) {
-                Console.WriteLine("wat");
+            mController.SetPrev(data.prevDir);
+            if (data.hasProj)
                 mProj = data.proj;
-            }
         }
 
         // Converts the square to saveable data
@@ -168,6 +167,7 @@ namespace Geimu {
             data.health = health;
             data.scale = mScale;
             data.pos = mPos;
+            data.prevDir = new Vector2(mController.xDirPrev, mController.yDirPrev);
             data.proj = mProj;
             data.hasProj = true;
 

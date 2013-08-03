@@ -24,6 +24,7 @@ namespace Geimu {
             public int health;
             public Vector2 pos;
             public float scale;
+            public Vector2 prevDir;
             public bool hasProj;
             public ProjectileQueue proj;
         }
@@ -46,6 +47,9 @@ namespace Geimu {
 
             Square0.scale = 1.0f;
             Square1.scale = 0.75f;
+
+            Square0.prevDir = new Vector2(1, 0);
+            Square1.prevDir = new Vector2(-1, 0);
 
             Square0.hasProj = Square1.hasProj = false;
             isSave = false;
