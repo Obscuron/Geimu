@@ -14,6 +14,7 @@ namespace Geimu {
         public PauseScreen() {
             menuEntries.Add("Back to Game");
             menuEntries.Add("Restart Game");
+            menuEntries.Add("Save and Back");
             menuEntries.Add("Back to Main Menu");
 
             menuJustify = 1;
@@ -28,9 +29,18 @@ namespace Geimu {
                 case 1:
                     screenManager.RemoveScreen(this);
                     screenManager.screenReference.game.Initialize();
+                    screenManager.screenReference.game.NewGame();
                     break;
                 case 2:
                     screenManager.RemoveAll();
+                    screenManager.dataReference.gameSave.isSave = true;
+                    screenManager.screenReference.game.SaveGame();
+                    screenManager.AddScreen(screenManager.screenReference.menu);
+                    break;
+                case 3:
+                    screenManager.RemoveAll();
+                    screenManager.dataReference.gameSave.isSave = false;
+                    screenManager.dataReference.gameSave.Reset();
                     screenManager.AddScreen(screenManager.screenReference.menu);
                     break;
             }

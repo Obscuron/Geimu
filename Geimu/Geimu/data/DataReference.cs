@@ -9,13 +9,19 @@ namespace Geimu {
     public class DataReference {
         // References
         protected ControlsData controlsData;
+        protected GameData gameData;
 
         public ControlsData controls {
             get { return controlsData; }
         }
 
+        public GameData gameSave {
+            get { return gameData; }
+        }
+
         public DataReference() {
             controlsData = new ControlsData("Content\\Controls.conf");
+            gameData = new GameData("Content\\GameSave.sav");
         }
 
     }

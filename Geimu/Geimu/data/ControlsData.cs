@@ -45,14 +45,14 @@ namespace Geimu {
         // Loads controls
         public void LoadData() {
             if (serializer.Exists(filePath))
-                copyData(serializer.Deserialize(filePath));
+                CopyData(serializer.Deserialize(filePath));
             else {
                 Reset();
             }
         }
 
         // Copies data from save file
-        public void copyData(ControlsData data) {
+        public void CopyData(ControlsData data) {
             up = data.up;
             down = data.down;
             left = data.left;

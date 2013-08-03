@@ -21,20 +21,38 @@ namespace Geimu {
         // Initializes the game screen with a new game
         public override void Initialize() {
             Activate();
-            NewGame();
 
             base.Initialize();
         }
 
         // Creates objects for a new game
-        protected void NewGame() {
-            square0 = new Square(200, 300, 0, screenManager.bounds, screenManager.dataReference.controls);
-            square1 = new Square(500, 300, 1, 0.75f, 0.0f, screenManager.bounds, screenManager.dataReference.controls);
+        public void NewGame() {
+            screenManager.dataReference.gameSave.Reset();
+            LoadGame();
+        }
+
+        // Starts a game with data
+        public void LoadGame() {
+            square0 = new Square(0, screenManager.bounds, screenManager.dataReference.controls);
+            square1 = new Square(1, screenManager.bounds, screenManager.dataReference.controls);
+
+            screenManager.dataReference.gameSave.LoadData();
+
+            square0.LoadData(screenManager.dataReference.gameSave.Square0);
+            square1.LoadData(screenManager.dataReference.gameSave.Square1);
 
             squareControl0 = square0.controller;
             squareControl1 = square1.controller;
 
             Square.SetEnemies(square0, square1);
+        }
+
+        // Saves the game
+        public void SaveGame() {
+            screenManager.dataReference.gameSave.Square0 = square0.ToData();
+            screenManager.dataReference.gameSave.Square1 = square1.ToData();
+
+            screenManager.dataReference.gameSave.SaveData();
         }
 
         // Loads textures

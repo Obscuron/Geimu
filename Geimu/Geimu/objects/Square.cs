@@ -92,9 +92,9 @@ namespace Geimu {
         protected float mRot = 0.0f;
 
         // Construct a new Square at a location with default size.
-        public Square(int x, int y, int id, Rectangle bounds, ControlsData controls) {
-            mPos = new Vector2(x, y);
-            mVel = new Vector2(0, 0);
+        public Square(int id, Rectangle bounds, ControlsData controls) {
+            mPos = Vector2.Zero;
+            mVel = Vector2.Zero;
 
             mController = new SquareController(id, controls);
 
@@ -112,13 +112,6 @@ namespace Geimu {
             mHealthBar = new HealthBar(mHealth, MAX_HEALTH, healthBounds, id);
 
             mSize = new Rectangle();
-        }
-
-        // Constructs a new Square given size and rotation
-        public Square(int x, int y, int id, float scale, float rot, Rectangle bounds, ControlsData controls)
-            : this(x, y, id, bounds, controls) {
-            mScale = scale;
-            mRot = rot;
         }
 
         // Loads texture into memory
@@ -155,6 +148,30 @@ namespace Geimu {
                 if (pos.Y > mPos.Y - mSize.Height && pos.Y < mPos.Y)
                     return true;
             return false;
+        }
+
+        // Reads data into the square
+        public void LoadData(GameData.SquareData data) {
+            health = data.health;
+            mScale = data.scale;
+            mPos = data.pos;
+            if (data.hasProj) {
+                Console.WriteLine("wat");
+                mProj = data.proj;
+            }
+        }
+
+        // Converts the square to saveable data
+        public GameData.SquareData ToData() {
+            GameData.SquareData data = new GameData.SquareData();
+
+            data.health = health;
+            data.scale = mScale;
+            data.pos = mPos;
+            data.proj = mProj;
+            data.hasProj = true;
+
+            return data;
         }
 
         // Controls movement of Square

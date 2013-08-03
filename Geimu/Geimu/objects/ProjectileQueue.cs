@@ -9,6 +9,7 @@ using Microsoft.Xna.Framework.Graphics;
 namespace Geimu {
 
     // Class for handling Projectile
+    [Serializable]
     public class ProjectileQueue {
         // Max constants for a single queue
         public const int MAX_AGE = 120;
@@ -37,6 +38,7 @@ namespace Geimu {
         }
 
         // Information about the opponent square
+        [NonSerialized]
         protected Square mEnemySquare;
 
         public Square enemySquare {
@@ -50,6 +52,7 @@ namespace Geimu {
         protected int size;
 
         // Struct for a single projectile
+        [Serializable]
         public struct Projectile {
             public Vector2 pos;
             public Vector2 vel;
@@ -72,7 +75,6 @@ namespace Geimu {
             for (int i = 0; i < MAX_NUM; i++) {
                 queue[i] = new Projectile();
             }
-
         }
 
         // Loads texture into memory
