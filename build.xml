@@ -1,7 +1,12 @@
 <?xml version="1.0" ?> 
 <project name="Geimu" default="build">
 	
+	<taskdef resource="net/sf/antcontrib/antlib.xml"/>
 	<property file="build.properties" prefix="build" />
+	<propertyselector property="delete.list" 
+						 delimiter=","
+						 match="build\.exclude\.(.*)"
+						 select="\1" />
 	
 	<target name="increment_build_number">
 		<propertyfile file="build.properties">
@@ -14,14 +19,21 @@
 		<delete dir="${build.dir.temp}" />
 	</target>
 	
+	<target name="delete_files">
+		<foreach list="${delete.list}" delimiter="," target="delete_file" param="file.id" />
+	</target>
+
+	<target name="delete_file">
+		<propertycopy name="file.name" from="build.exclude.${file.id}" />
+		<delete file="${build.dir.temp}\${file.name}" />
+	</target>
+
 	<target name="prep">
 		<mkdir dir="${build.dir.temp}" />
 		<copy todir="${build.dir.temp}">
 			<fileset dir="${build.dir.bin}" />
 		</copy>
-		<delete file="${build.dir.temp}\Geimu.pdb" />
-		<delete file="${build.dir.temp}\Content\Controls.conf" />
-		<delete file="${build.dir.temp}\Content\GameSave.sav" />
+		<antcall target="delete_files" />
 	</target>
 	
 	<target name="zip">
