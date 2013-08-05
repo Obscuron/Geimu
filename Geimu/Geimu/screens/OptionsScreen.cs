@@ -21,8 +21,8 @@ namespace Geimu {
             switch (selection) {
                 case 0:
                     Deactivate();
-                    screenManager.AddScreen(screenManager.screenReference.controls);
-                    screenManager.AddScreen(screenManager.screenReference.chooser);
+                    screenManager.AddScreen(screenManager.screenReference.controlsScreen);
+                    screenManager.AddScreen(screenManager.screenReference.chooserScreen);
                     break;
                 case 1:
                     OnCancel();
@@ -34,7 +34,7 @@ namespace Geimu {
 
         // Returns to main menu
         protected override void OnCancel() {
-            screenManager.screenReference.menu.Activate();
+            screenManager.screenReference.menuScreen.Activate();
             screenManager.RemoveScreen(this);
 
             base.OnCancel();

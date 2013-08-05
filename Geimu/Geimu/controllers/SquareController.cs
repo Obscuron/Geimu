@@ -19,15 +19,14 @@ namespace Geimu {
         protected ControlsData mControls;
 
         // 1 = down/right, -1 = up/left, 0 = still
-        private int mXdir;
-        private int mYdir;
-
         public int xDir {
-            get { return mXdir; }
+            get;
+            private set;
         }
 
         public int yDir {
-            get { return mYdir; }
+            get;
+            private set;
         }
 
         public bool walk {
@@ -45,15 +44,14 @@ namespace Geimu {
         }
 
         // Previous directions
-        private int mXdirPrev;
-        private int mYdirPrev;
-
         public int xDirPrev {
-            get { return mXdirPrev; }
+            get;
+            private set;
         }
 
         public int yDirPrev {
-            get { return mYdirPrev; }
+            get;
+            private set;
         }
 
         // Constructs a controller for a given player id
@@ -65,8 +63,8 @@ namespace Geimu {
 
         // Sets default previous directions
         public void SetPrev(Vector2 prevDir) {
-            mXdirPrev = (int) prevDir.X;
-            mYdirPrev = (int) prevDir.Y;
+            xDirPrev = (int) prevDir.X;
+            yDirPrev = (int) prevDir.Y;
         }
 
         public void Delay() {
@@ -77,24 +75,24 @@ namespace Geimu {
         public void ReadInput(InputState input) {
             inputState = input;
 
-            mXdir = mYdir = 0;
+            xDir = yDir = 0;
 
             if (delay && input.IsKeyUp(mControls.fire[mPlayer]))
                 delay = false;
 
             if (input.IsKeyDown(mControls.up[mPlayer]) && !input.IsKeyDown(mControls.down[mPlayer]))
-                mYdir = -1;
+                yDir = -1;
             else if (input.IsKeyDown(mControls.down[mPlayer]) && !input.IsKeyDown(mControls.up[mPlayer]))
-                mYdir = 1;
+                yDir = 1;
 
             if (input.IsKeyDown(mControls.left[mPlayer]) && !input.IsKeyDown(mControls.right[mPlayer]))
-                mXdir = -1;
+                xDir = -1;
             if (input.IsKeyDown(mControls.right[mPlayer]) && !input.IsKeyDown(mControls.left[mPlayer]))
-                mXdir = 1;
+                xDir = 1;
 
-            if (mXdir != 0 || mYdir != 0) {
-                mXdirPrev = mXdir;
-                mYdirPrev = mYdir;
+            if (xDir != 0 || yDir != 0) {
+                xDirPrev = xDir;
+                yDirPrev = yDir;
             }
 
         }

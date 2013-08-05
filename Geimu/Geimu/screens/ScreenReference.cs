@@ -8,40 +8,39 @@ namespace Geimu {
     // Class containing references to all screens
     public class ScreenReference {
         // References to screens
-        protected MainMenu menuScreen;
-        protected OptionsScreen optionsScreen;
-        protected ControlsScreen controlsScreen;
-        protected ControlsChooser chooserScreen;
-        protected GameScreen gameScreen;
-        protected PauseScreen pauseScreen;
-        protected EndScreen endScreen;
-
-        public MainMenu menu {
-            get { return menuScreen; }
+        public MainMenu menuScreen {
+            get;
+            private set;
         }
 
-        public OptionsScreen options {
-            get { return optionsScreen; }
+        public OptionsScreen optionsScreen {
+            get;
+            private set;
         }
 
-        public ControlsScreen controls {
-            get { return controlsScreen; }
+        public ControlsScreen controlsScreen {
+            get;
+            private set;
         }
 
-        public ControlsChooser chooser {
-            get { return chooserScreen; }
+        public ControlsChooser chooserScreen {
+            get;
+            private set;
         }
 
-        public GameScreen game {
-            get { return gameScreen; }
+        public GameScreen gameScreen {
+            get;
+            private set;
         }
 
-        public PauseScreen pause {
-            get { return pauseScreen; }
+        public PauseScreen pauseScreen {
+            get;
+            private set;
         }
 
-        public EndScreen end {
-            get { return endScreen; }
+        public EndScreen endScreen {
+            get;
+            private set;
         }
 
         public ScreenReference() {

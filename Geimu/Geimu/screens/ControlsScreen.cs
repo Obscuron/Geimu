@@ -34,13 +34,13 @@ namespace Geimu {
             if (selection == 13)
                 OnCancel();
             else if (selection == 12) {
-                screenManager.dataReference.controls.Reset();
-                screenManager.screenReference.chooser.GetKeys();
+                screenManager.dataReference.controlsData.Reset();
+                screenManager.screenReference.chooserScreen.GetKeys();
             }
             else {
                 menuChoice = -1;
                 mUpdateState = false;
-                screenManager.screenReference.chooser.Activate(selection);
+                screenManager.screenReference.chooserScreen.Activate(selection);
             }
 
             base.OnSelected(selection);
@@ -48,10 +48,10 @@ namespace Geimu {
 
         // Returns to previous menu
         protected override void OnCancel() {
-            screenManager.screenReference.options.Activate();
+            screenManager.screenReference.optionsScreen.Activate();
             screenManager.RemoveScreen(this);
-            screenManager.RemoveScreen(screenManager.screenReference.chooser);
-            screenManager.dataReference.controls.SaveData();
+            screenManager.RemoveScreen(screenManager.screenReference.chooserScreen);
+            screenManager.dataReference.controlsData.SaveData();
 
             base.OnCancel();
         }

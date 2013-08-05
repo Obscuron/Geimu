@@ -42,12 +42,12 @@ namespace Geimu {
         // Gets the keys bindings from data
         public void GetKeys() {
             for (int i = 0; i < 2; i++) {
-                menuKeys[6 * i] = screenManager.dataReference.controls.up[i].ToString();
-                menuKeys[6 * i + 1] = screenManager.dataReference.controls.down[i].ToString();
-                menuKeys[6 * i + 2] = screenManager.dataReference.controls.left[i].ToString();
-                menuKeys[6 * i + 3] = screenManager.dataReference.controls.right[i].ToString();
-                menuKeys[6 * i + 4] = screenManager.dataReference.controls.walk[i].ToString();
-                menuKeys[6 * i + 5] = screenManager.dataReference.controls.fire[i].ToString();
+                menuKeys[6 * i] = screenManager.dataReference.controlsData.up[i].ToString();
+                menuKeys[6 * i + 1] = screenManager.dataReference.controlsData.down[i].ToString();
+                menuKeys[6 * i + 2] = screenManager.dataReference.controlsData.left[i].ToString();
+                menuKeys[6 * i + 3] = screenManager.dataReference.controlsData.right[i].ToString();
+                menuKeys[6 * i + 4] = screenManager.dataReference.controlsData.walk[i].ToString();
+                menuKeys[6 * i + 5] = screenManager.dataReference.controlsData.fire[i].ToString();
             }
 
             for (int i = 0; i < 12; i++)
@@ -59,7 +59,7 @@ namespace Geimu {
 
         // Returns to controls menu
         protected override void OnCancel() {
-            screenManager.screenReference.controls.Activate(menuChoice);
+            screenManager.screenReference.controlsScreen.Activate(menuChoice);
             menuEntries[menuChoice] = menuKeys[menuChoice];
             menuChoice = -1;
             mUpdateState = false;
@@ -73,22 +73,22 @@ namespace Geimu {
             num %= 6;
             switch (num) {
                 case 0:
-                    screenManager.dataReference.controls.up[i] = newKey;
+                    screenManager.dataReference.controlsData.up[i] = newKey;
                     break;
                 case 1:
-                    screenManager.dataReference.controls.down[i] = newKey;
+                    screenManager.dataReference.controlsData.down[i] = newKey;
                     break;
                 case 2:
-                    screenManager.dataReference.controls.left[i] = newKey;
+                    screenManager.dataReference.controlsData.left[i] = newKey;
                     break;
                 case 3:
-                    screenManager.dataReference.controls.right[i] = newKey;
+                    screenManager.dataReference.controlsData.right[i] = newKey;
                     break;
                 case 4:
-                    screenManager.dataReference.controls.walk[i] = newKey;
+                    screenManager.dataReference.controlsData.walk[i] = newKey;
                     break;
                 case 5:
-                    screenManager.dataReference.controls.fire[i] = newKey;
+                    screenManager.dataReference.controlsData.fire[i] = newKey;
                     break;
             }
         }

@@ -18,32 +18,31 @@ namespace Geimu {
         protected List<Screen> addList = new List<Screen>();
 
         // Managers
-        protected GameEngine mGame;
-        protected SpriteBatch mSpriteBatch;
-        protected ScreenReference mScreens;
-
         public GameEngine game {
-            get { return mGame; }
+            get;
+            protected set;
         }
 
         public GraphicsDevice graphicsDevice {
-            get { return mGame.GraphicsDevice; }
+            get { return game.GraphicsDevice; }
         }
 
         public ContentManager contentManager {
-            get { return mGame.Content; }
+            get { return game.Content; }
         }
 
         public SpriteBatch spriteBatch {
-            get { return mSpriteBatch; }
+            get;
+            protected set;
         }
 
         public ScreenReference screenReference {
-            get { return mScreens; }
+            get;
+            protected set;
         }
 
         public DataReference dataReference {
-            get { return mGame.dataReference; }
+            get { return game.dataReference; }
         }
 
         // Game boundaries
@@ -57,20 +56,20 @@ namespace Geimu {
         public InputState input = new InputState();
 
         // Constructs a new screen manager
-        public ScreenManager(GameEngine game) {
-            mGame = game;
-            mScreens = new ScreenReference();
+        public ScreenManager(GameEngine gameEngine) {
+            game = gameEngine;
+            screenReference = new ScreenReference();
         }
 
         // Starts up the game with the main menu
         public void Initialize() {
             mBounds = new Rectangle(0, 0, graphicsDevice.Viewport.Width, graphicsDevice.Viewport.Height);
-            AddScreen(screenReference.menu);
+            AddScreen(screenReference.menuScreen);
         }
 
         // Creates a new sprite batch
         public void LoadContent() {
-            mSpriteBatch = new SpriteBatch(graphicsDevice);
+            spriteBatch = new SpriteBatch(graphicsDevice);
         }
 
         // Updates each screen

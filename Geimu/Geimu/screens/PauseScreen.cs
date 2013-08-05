@@ -28,20 +28,20 @@ namespace Geimu {
                     break;
                 case 1:
                     screenManager.RemoveScreen(this);
-                    screenManager.screenReference.game.Initialize();
-                    screenManager.screenReference.game.NewGame();
+                    screenManager.screenReference.gameScreen.Initialize();
+                    screenManager.screenReference.gameScreen.NewGame();
                     break;
                 case 2:
                     screenManager.RemoveAll();
-                    screenManager.dataReference.gameSave.isSave = true;
-                    screenManager.screenReference.game.SaveGame();
-                    screenManager.AddScreen(screenManager.screenReference.menu);
+                    screenManager.dataReference.gameData.isSave = true;
+                    screenManager.screenReference.gameScreen.SaveGame();
+                    screenManager.AddScreen(screenManager.screenReference.menuScreen);
                     break;
                 case 3:
                     screenManager.RemoveAll();
-                    screenManager.dataReference.gameSave.isSave = false;
-                    screenManager.dataReference.gameSave.Reset();
-                    screenManager.AddScreen(screenManager.screenReference.menu);
+                    screenManager.dataReference.gameData.isSave = false;
+                    screenManager.dataReference.gameData.Reset();
+                    screenManager.AddScreen(screenManager.screenReference.menuScreen);
                     break;
             }
 
@@ -51,7 +51,7 @@ namespace Geimu {
         // Returns back to game
         protected override void OnCancel() {
             screenManager.RemoveScreen(this);
-            screenManager.screenReference.game.Activate();
+            screenManager.screenReference.gameScreen.Activate();
 
             base.OnCancel();
         }

@@ -8,15 +8,14 @@ namespace Geimu {
     // Class containing reference to all data handlers
     public class DataReference {
         // References
-        protected ControlsData controlsData;
-        protected GameData gameData;
-
-        public ControlsData controls {
-            get { return controlsData; }
+        public ControlsData controlsData {
+            get;
+            private set;
         }
 
-        public GameData gameSave {
-            get { return gameData; }
+        public GameData gameData {
+            get;
+            private set;
         }
 
         public DataReference() {

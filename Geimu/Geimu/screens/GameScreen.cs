@@ -27,19 +27,19 @@ namespace Geimu {
 
         // Creates objects for a new game
         public void NewGame() {
-            screenManager.dataReference.gameSave.Reset();
+            screenManager.dataReference.gameData.Reset();
             LoadGame();
         }
 
         // Starts a game with data
         public void LoadGame() {
-            square0 = new Square(0, screenManager.bounds, screenManager.dataReference.controls);
-            square1 = new Square(1, screenManager.bounds, screenManager.dataReference.controls);
+            square0 = new Square(0, screenManager.bounds, screenManager.dataReference.controlsData);
+            square1 = new Square(1, screenManager.bounds, screenManager.dataReference.controlsData);
 
-            screenManager.dataReference.gameSave.LoadData();
+            screenManager.dataReference.gameData.LoadData();
 
-            square0.LoadData(screenManager.dataReference.gameSave.Square0);
-            square1.LoadData(screenManager.dataReference.gameSave.Square1);
+            square0.LoadData(screenManager.dataReference.gameData.Square0);
+            square1.LoadData(screenManager.dataReference.gameData.Square1);
 
             squareControl0 = square0.controller;
             squareControl1 = square1.controller;
@@ -49,10 +49,10 @@ namespace Geimu {
 
         // Saves the game
         public void SaveGame() {
-            screenManager.dataReference.gameSave.Square0 = square0.ToData();
-            screenManager.dataReference.gameSave.Square1 = square1.ToData();
+            screenManager.dataReference.gameData.Square0 = square0.ToData();
+            screenManager.dataReference.gameData.Square1 = square1.ToData();
 
-            screenManager.dataReference.gameSave.SaveData();
+            screenManager.dataReference.gameData.SaveData();
         }
 
         // Loads textures
@@ -78,7 +78,7 @@ namespace Geimu {
             square1.Update();
             if (square0.IsDead() || square1.IsDead()) {
                 updateState = false;
-                screenManager.AddScreen(screenManager.screenReference.end);
+                screenManager.AddScreen(screenManager.screenReference.endScreen);
             }
 
             base.Update(gameTime);
@@ -88,7 +88,7 @@ namespace Geimu {
         public override void HandleInput(InputState input) {
             if (input.IsNewKeyPress(Keys.Escape)) {
                 Deactivate();
-                screenManager.AddScreen(screenManager.screenReference.pause);
+                screenManager.AddScreen(screenManager.screenReference.pauseScreen);
             }
 
             squareControl0.ReadInput(input);

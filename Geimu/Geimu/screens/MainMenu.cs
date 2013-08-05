@@ -29,8 +29,8 @@ namespace Geimu {
 
         // Initializes the menu
         public override void Initialize() {
-            screenManager.dataReference.gameSave.LoadData();
-            if (screenManager.dataReference.gameSave.isSave)
+            screenManager.dataReference.gameData.LoadData();
+            if (screenManager.dataReference.gameData.isSave)
                 menuEntries = withCont;
             else
                 menuEntries = noCont;
@@ -40,23 +40,23 @@ namespace Geimu {
 
         // On menu selection
         protected override void OnSelected(int selection) {
-            if (!screenManager.dataReference.gameSave.isSave)
+            if (!screenManager.dataReference.gameData.isSave)
                 selection++;
 
             switch (selection) {
                 case 0:
-                    screenManager.AddScreen(screenManager.screenReference.game);
-                    screenManager.screenReference.game.LoadGame();
+                    screenManager.AddScreen(screenManager.screenReference.gameScreen);
+                    screenManager.screenReference.gameScreen.LoadGame();
                     screenManager.RemoveScreen(this);
                     break;
                 case 1:
-                    screenManager.AddScreen(screenManager.screenReference.game);
-                    screenManager.screenReference.game.NewGame();
+                    screenManager.AddScreen(screenManager.screenReference.gameScreen);
+                    screenManager.screenReference.gameScreen.NewGame();
                     screenManager.RemoveScreen(this);
                     break;
                 case 2:
                     Deactivate();
-                    screenManager.AddScreen(screenManager.screenReference.options);
+                    screenManager.AddScreen(screenManager.screenReference.optionsScreen);
                     break;
                 case 3:
                     OnCancel();

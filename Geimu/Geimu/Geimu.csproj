@@ -110,6 +110,7 @@
     <Compile Include="controllers\MenuController.cs" />
     <Compile Include="controllers\InputState.cs" />
     <Compile Include="data\GameData.cs" />
+    <Compile Include="objects\DrawableObject.cs" />
     <Compile Include="screens\ControlsChooser.cs" />
     <Compile Include="controllers\RebindController.cs" />
     <Compile Include="screens\ControlsScreen.cs" />
@@ -132,6 +133,7 @@
     <Compile Include="screens\Screen.cs" />
     <Compile Include="screens\ScreenManager.cs" />
     <Compile Include="data\Serializer.cs" />
+    <Compile Include="objects\Sprite.cs" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="Game.ico" />
