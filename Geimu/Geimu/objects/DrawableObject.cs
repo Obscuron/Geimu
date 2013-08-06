@@ -26,13 +26,20 @@ namespace Geimu {
                 sprite = content.Load<Texture2D>(FileName);
         }
 
-        // Draws the sprite
+        public virtual void AddSprite(Rectangle sector) {
+            spriteList.Add(new Sprite(sector));
+        }
+
+        // Draws all the sprites
         public virtual void Draw(SpriteBatch spriteBatch) {
             spriteBatch.Begin(SpriteSortMode.BackToFront, BlendState.AlphaBlend);
 
-            //spriteBatch.Draw(sSprite, mPos, sector, Color.White, mRot, origin, mScale, SpriteEffects.None, 0);
-
             spriteBatch.End();
+        }
+
+        // Draws a single sprite
+        public virtual void DrawSprite(SpriteBatch spriteBatch, int num) {
+            spriteBatch.Draw(sprite, spriteList[num].Pos, spriteList[num].Sector, spriteList[num].Tint, 0.0f, spriteList[num].Origin, spriteList[num].Scale, SpriteEffects.None, 0);
         }
 
     }
