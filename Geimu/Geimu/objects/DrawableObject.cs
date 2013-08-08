@@ -13,37 +13,20 @@ namespace Geimu {
         // Texture
         protected static Texture2D sprite;
 
-        protected List<Sprite> spriteList = new List<Sprite>();
-
-        // Filename - set this
-        public abstract String FileName {
-            get { return ""; }
-        }
+        public Sprite SpriteObject;
 
         // Loads the texture
-        public virtual void LoadContent(ContentManager content) {
-            if (sprite == null)
-                sprite = content.Load<Texture2D>(FileName);
-        }
-
-        public virtual void AddSprite(Rectangle sector) {
-            spriteList.Add(new Sprite(sector));
+        public static void LoadContent(ContentManager content, string FileName) {
+            sprite = content.Load<Texture2D>(FileName);
         }
 
         // Draws all the sprites
         public virtual void Draw(SpriteBatch spriteBatch) {
             spriteBatch.Begin(SpriteSortMode.BackToFront, BlendState.AlphaBlend);
 
-            for (int i = 0; i < spriteList.Count; i++) {
-                DrawSprite(spriteBatch, i);
-            }
+            spriteBatch.Draw(sprite, SpriteObject.Pos, SpriteObject.Sector, SpriteObject.Tint, 0.0f, SpriteObject.Origin, SpriteObject.Scale, SpriteEffects.None, SpriteObject.Depth);
 
             spriteBatch.End();
-        }
-
-        // Draws a single sprite
-        public virtual void DrawSprite(SpriteBatch spriteBatch, int num) {
-            spriteBatch.Draw(sprite, spriteList[num].Pos, spriteList[num].Sector, spriteList[num].Tint, 0.0f, spriteList[num].Origin, spriteList[num].Scale, SpriteEffects.None, spriteList[num].Depth);
         }
 
     }

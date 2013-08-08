@@ -44,7 +44,8 @@ namespace Geimu {
             squareControl0 = square0.Controller;
             squareControl1 = square1.Controller;
 
-            Square.SetEnemies(square0, square1);
+            square0.EnemySquare = square1;
+            square1.EnemySquare = square0;
         }
 
         // Saves the game

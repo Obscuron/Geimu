@@ -10,7 +10,6 @@ namespace Geimu {
 
     // Class representing the player object
     public class Square : DrawableObject{
-
         // Sprite constants
         public const int SIZE = 91;
 
@@ -25,8 +24,8 @@ namespace Geimu {
         // Maximum health
         public const int MAX_HEALTH = 300;
 
-        // Sprite
-        protected Sprite square;
+        public static Rectangle UNWALK_SECTOR = new Rectangle(0, 0, SIZE, SIZE);
+        public static Rectangle WALK_SECTOR = new Rectangle(SIZE + 2, 0, SIZE, SIZE / 2);
 
         // Controller for handling player input
         public SquareController Controller {
@@ -40,7 +39,7 @@ namespace Geimu {
         // The enemy square
         protected Square mEnemySquare;
 
-        public Square enemySquare {
+        public Square EnemySquare {
             get { return mEnemySquare; }
             set { mEnemySquare = mProj.enemySquare = value; }
         }
@@ -58,47 +57,15 @@ namespace Geimu {
         protected Rectangle mBounds;
 
         // Square data
-        protected Vector2 mPos;
         protected Vector2 mVel;
-        protected Rectangle mSize;
-
         protected int refire = 0;
         protected bool walk = false;
 
-        // Location data
-        public Vector2 center {
-            get { return mPos + new Vector2(mSize.Width / 2, -mSize.Height / 2); }
-        }
-
-        public int top {
-            get { return (int)mPos.Y - mSize.Height; }
-        }
-
-        public int bot {
-            get { return (int)mPos.Y; }
-        }
-
-        public int left {
-            get { return (int)mPos.X; }
-        }
-
-        public int right {
-            get { return (int)mPos.X + mSize.Width; }
-        }
-
-        // Drawing data
-        protected float mScale = 1.0f;
-        protected float mRot = 0.0f;
-
-        public override String FileName {
-            get { return "images\\Square"; }
-        }
-
         // Construct a new Square at a location with default size.
         public Square(int id, Rectangle bounds, ControlsData controls) {
-            square = new Sprite(new Rectangle(0, 0, SIZE, SIZE));
+            SpriteObject = new Sprite(UNWALK_SECTOR);
+            SpriteObject.Origin = new Vector2(0, SpriteObject.Sector.Height);
 
-            mPos = Vector2.Zero;
             mVel = Vector2.Zero;
 
             Controller = new SquareController(id, controls);
@@ -115,21 +82,13 @@ namespace Geimu {
 
             mHealth = MAX_HEALTH;
             mHealthBar = new HealthBar(mHealth, MAX_HEALTH, healthBounds, id);
-
-            mSize = new Rectangle();
         }
 
         // Loads texture into memory
-        public override void LoadContent(ContentManager content) {
-            base.LoadContent(content);
+        public static void LoadContent(ContentManager content) {
+            LoadContent(content, "images\\Square");
             ProjectileQueue.LoadContent(content);
             HealthBar.LoadContent(content);
-        }
-
-        // Set both squares as the enemies of each other
-        public static void SetEnemies(Square square, Square other) {
-            square.enemySquare = other;
-            other.enemySquare = square;
         }
 
         // Damages the Square
@@ -149,8 +108,8 @@ namespace Geimu {
 
         // Returns if the vector is inside the square
         public bool IsInside(Vector2 pos) {
-            if (pos.X > mPos.X && pos.X < mPos.X + mSize.Width)
-                if (pos.Y > mPos.Y - mSize.Height && pos.Y < mPos.Y)
+            if (pos.X > SpriteObject.Left && pos.X < SpriteObject.Right)
+                if (pos.Y > SpriteObject.Top && pos.Y < SpriteObject.Bot)
                     return true;
             return false;
         }
@@ -158,8 +117,8 @@ namespace Geimu {
         // Reads data into the square
         public void LoadData(GameData.SquareData data) {
             health = data.health;
-            mScale = data.scale;
-            mPos = data.pos;
+            SpriteObject.Scale = data.scale;
+            SpriteObject.Pos = data.pos;
             Controller.SetPrev(data.prevDir);
             if (data.hasProj)
                 mProj = data.proj;
@@ -170,8 +129,8 @@ namespace Geimu {
             GameData.SquareData data = new GameData.SquareData();
 
             data.health = health;
-            data.scale = mScale;
-            data.pos = mPos;
+            data.scale = SpriteObject.Scale;
+            data.pos = SpriteObject.Pos;
             data.prevDir = new Vector2(Controller.xDirPrev, Controller.yDirPrev);
             data.proj = mProj;
             data.hasProj = true;
@@ -184,18 +143,17 @@ namespace Geimu {
             if (Controller == null)
                 return;
 
-            if (mSize == new Rectangle())
-                mSize.Width = mSize.Height = (int)(SIZE * mScale);
-
             if (Controller.unwalk) {
                 walk = false;
-                mSize.Height = (int)(SIZE * mScale);
-                if (Collided())
-                    mPos.Y = enemySquare.bot + mSize.Height;
+                SpriteObject.Sector = UNWALK_SECTOR;
+                SpriteObject.Origin = new Vector2(0, SpriteObject.Sector.Height);
+                //if (Collided())
+                //    mPos.Y = enemySquare.bot + mSize.Height;
             }
             if (Controller.walk) {
                 walk = true;
-                mSize.Height = (int)(SIZE / 2 * mScale);
+                SpriteObject.Sector = WALK_SECTOR;
+                SpriteObject.Origin = new Vector2(0, SpriteObject.Sector.Height);
             }
 
             float vel;
@@ -211,11 +169,11 @@ namespace Geimu {
             HandleMovement();
 
             if (refire == 0 && Controller.fire) {
-                Vector2 pPos = new Vector2(mPos.X + (mSize.Width / 2), mPos.Y - (mSize.Height / 2));
+                Vector2 pPos = SpriteObject.Center;
                 Vector2 pVel = new Vector2(PROJ_VEL * Controller.xDirPrev, PROJ_VEL * Controller.yDirPrev);
 
-                pPos.X += Controller.xDirPrev * (mSize.Width / 2);
-                pPos.Y += Controller.yDirPrev * (mSize.Height / 2);
+                pPos.X += Controller.xDirPrev * (SpriteObject.Width / 2);
+                pPos.Y += Controller.yDirPrev * (SpriteObject.Height / 2);
 
                 mProj.AddProjectile(pPos, pVel);
                 refire = PROJ_RATE;
@@ -230,20 +188,20 @@ namespace Geimu {
 
         // Handles movement of squares to prevent collisions
         protected void HandleMovement() {
-            mPos.X += mVel.X;
+            SpriteObject.X += mVel.X;
             if (Collided()) {
                 if (Controller.xDir == 1)
-                    mPos.X = enemySquare.left - mSize.Width;
+                    SpriteObject.Right = EnemySquare.SpriteObject.Left;
                 else if (Controller.xDir == -1)
-                    mPos.X = enemySquare.right;
+                    SpriteObject.Left = EnemySquare.SpriteObject.Right;
             }
 
-            mPos.Y += mVel.Y;
+            SpriteObject.Y += mVel.Y;
             if (Collided()) {
                 if (Controller.yDir == 1)
-                    mPos.Y = enemySquare.top;
+                    SpriteObject.Bot = EnemySquare.SpriteObject.Top;
                 else if (Controller.yDir == -1)
-                    mPos.Y = enemySquare.bot + mSize.Height;
+                    SpriteObject.Top = EnemySquare.SpriteObject.Bot;
             }
 
             HandleWalls();
@@ -251,49 +209,37 @@ namespace Geimu {
 
         // Handles collisions against walls
         protected void HandleWalls() {
-            if (mPos.X < mBounds.X)
-                mPos.X = mBounds.X;
-            else if (mPos.X + mSize.Width > mBounds.Width)
-                mPos.X = mBounds.Width - mSize.Width;
+            if (SpriteObject.Left < mBounds.X)
+                SpriteObject.Left = mBounds.X;
+            else if (SpriteObject.Right > mBounds.Width)
+                SpriteObject.Right = mBounds.Width;
 
-            if (mPos.Y - mSize.Height < mBounds.Y)
-                mPos.Y = mBounds.Y + mSize.Height;
-            else if (mPos.Y > mBounds.Height)
-                mPos.Y = mBounds.Height;
+            if (SpriteObject.Top < mBounds.Y)
+                SpriteObject.Top = mBounds.Y;
+            else if (SpriteObject.Bot > mBounds.Height)
+                SpriteObject.Bot = mBounds.Height;
         }
 
         // Checks for collisions against the enemy square
         protected bool Collided() {
-            if (top >= enemySquare.bot)
+            if (SpriteObject.Top >= EnemySquare.SpriteObject.Bot)
                 return false;
-            if (bot <= enemySquare.top)
+            if (SpriteObject.Bot <= EnemySquare.SpriteObject.Top)
                 return false;
-            if (right <= enemySquare.left)
+            if (SpriteObject.Right <= EnemySquare.SpriteObject.Left)
                 return false;
-            if (left >= enemySquare.right)
+            if (SpriteObject.Left >= EnemySquare.SpriteObject.Right)
                 return false;
 
             return true;
         }
 
         // Draws the Square along with healthbar and projectiles
-        public void Draw(SpriteBatch spriteBatch) {
+        public override void Draw(SpriteBatch spriteBatch) {
 
             mHealthBar.Draw(spriteBatch);
 
-            spriteBatch.Begin(SpriteSortMode.BackToFront, BlendState.AlphaBlend);
-
-            Rectangle sector;
-            if (!walk)
-                sector = new Rectangle(0, 0, SIZE, SIZE);
-            else
-                sector = new Rectangle(SIZE + 2, 0, SIZE, SIZE / 2);
-
-            Vector2 origin = new Vector2(0, sector.Height);
-
-            spriteBatch.Draw(sSprite, mPos, sector, Color.White, mRot, origin, mScale, SpriteEffects.None, 0);
-
-            spriteBatch.End();
+            base.Draw(spriteBatch);
 
             mProj.Draw(spriteBatch);
         }

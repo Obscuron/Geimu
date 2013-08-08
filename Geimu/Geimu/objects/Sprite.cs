@@ -20,6 +20,16 @@ namespace Geimu {
             get { return pos + origin * Scale; }
             set { pos = value - origin * Scale; }
         }
+
+        public float X {
+            get { return Pos.X; }
+            set { Pos = new Vector2(value, Pos.Y); }
+        }
+        public float Y {
+            get { return Pos.Y; }
+            set { Pos = new Vector2(Pos.X, value); }
+        }
+
         public Vector2 Origin {
             get { return origin; }
             set {
@@ -74,7 +84,13 @@ namespace Geimu {
             set { pos.X = value - Width; }
         }
 
-        public Sprite(Rectangle sector) : this() {
+        public Vector2 Center {
+            get { return pos + new Vector2(Width / 2, Height / 2); }
+            set { pos = value - new Vector2(Width / 2, Height / 2); }
+        }
+
+        public Sprite(Rectangle sector)
+            : this() {
             Scale = 1.0f;
             Tint = Color.White;
             Depth = 0;
