@@ -22,7 +22,7 @@ namespace Geimu {
         public const int DMG = 5;
 
         // Texture
-        private static Texture2D sSprite;
+        private Texture2D sprite;
 
         // Boundaries of the windows
         protected static Rectangle mBounds;
@@ -78,9 +78,9 @@ namespace Geimu {
         }
 
         // Loads texture into memory
-        public static void LoadContent(ContentManager content) {
-            sSprite = content.Load<Texture2D>("images\\Projectile");
-            mSize = new Rectangle(0, 0, (int)(sSprite.Width * SCALE), (int)(sSprite.Height * SCALE));
+        public void LoadContent(ContentManager content) {
+            sprite = content.Load<Texture2D>("images\\Projectile");
+            mSize = new Rectangle(0, 0, (int)(sprite.Width * SCALE), (int)(sprite.Height * SCALE));
         }
 
         // Adds a new projectile to the queue
@@ -165,8 +165,8 @@ namespace Geimu {
         public void Draw(SpriteBatch spriteBatch) {
             spriteBatch.Begin(SpriteSortMode.BackToFront, BlendState.AlphaBlend);
 
-            Rectangle sector = new Rectangle(0, 0, sSprite.Width, sSprite.Height);
-            Vector2 origin = new Vector2(sSprite.Width / 2, sSprite.Height / 2);
+            Rectangle sector = new Rectangle(0, 0, sprite.Width, sprite.Height);
+            Vector2 origin = new Vector2(sprite.Width / 2, sprite.Height / 2);
 
             for (int i = 0; i < size; i++) {
                 int id = ((head + i) % MAX_NUM);
@@ -176,7 +176,7 @@ namespace Geimu {
 
                 float rotate = VectorToAngle(queue[id].vel) - (float)(Math.PI / 2);
 
-                spriteBatch.Draw(sSprite, queue[id].pos, sector, mTint, rotate, origin, SCALE, SpriteEffects.None, 0);
+                spriteBatch.Draw(sprite, queue[id].pos, sector, mTint, rotate, origin, SCALE, SpriteEffects.None, 0);
             }
 
             spriteBatch.End();

@@ -46,6 +46,9 @@ namespace Geimu {
 
             square0.EnemySquare = square1;
             square1.EnemySquare = square0;
+
+            square0.LoadContent(screenManager.contentManager);
+            square1.LoadContent(screenManager.contentManager);
         }
 
         // Saves the game
@@ -58,8 +61,6 @@ namespace Geimu {
 
         // Loads textures
         public override void LoadContent() {
-            Square.LoadContent(screenManager.contentManager);
-
             base.LoadContent();
         }
 

@@ -14,11 +14,13 @@ namespace Geimu {
         private Rectangle sector;
         private float width;
         private float height;
+        private float scaleX;
+        private float scaleY;
 
         // Properties
         public Vector2 Pos {
-            get { return pos + origin * Scale; }
-            set { pos = value - origin * Scale; }
+            get { return pos + new Vector2(origin.X * scaleX, origin.Y * scaleY); }
+            set { pos = value - new Vector2(origin.X * scaleX, origin.Y * scaleY); }
         }
 
         public float X {
@@ -33,7 +35,7 @@ namespace Geimu {
         public Vector2 Origin {
             get { return origin; }
             set {
-                pos += (value - origin) * Scale;
+                pos += new Vector2((value.X - origin.X) * scaleX, (value.Y - origin.Y) * scaleY);
                 origin = value;
             }
         }
@@ -45,10 +47,6 @@ namespace Geimu {
                 height = sector.Height;
             }
         }
-        public float Scale {
-            get;
-            set;
-        }
         public Color Tint {
             get;
             set;
@@ -58,13 +56,21 @@ namespace Geimu {
             set;
         }
 
+        public float Scale {
+            set { scaleX = scaleY = value; }
+        }
+        public Vector2 ScaleVector {
+            get { return new Vector2(scaleX, scaleY); }
+            set { scaleX = value.X; scaleY = value.Y; }
+        }
+
         public float Width {
-            get { return width * Scale; }
-            set { width = value / Scale; }
+            get { return width * scaleX; }
+            set { width = value / scaleX; }
         }
         public float Height {
-            get { return height * Scale; }
-            set { height = value / Scale; }
+            get { return height * scaleY; }
+            set { height = value / scaleY; }
         }
 
         public float Top {

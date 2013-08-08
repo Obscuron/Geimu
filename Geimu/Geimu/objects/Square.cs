@@ -46,11 +46,13 @@ namespace Geimu {
 
         // Health Bar for the Square
         protected HealthBar mHealthBar;
-        protected int mHealth;
-
-        public int health {
-            get { return mHealth; }
-            set { mHealth = mHealthBar.health = value; }
+        public int Health {
+            get;
+            protected set;
+        }
+        public int MaxHealth {
+            get;
+            protected set;
         }
 
         // Boundaries of the window
@@ -76,34 +78,30 @@ namespace Geimu {
             if (id == 1)
                 mProj.tint = Color.Green;
 
-            Rectangle healthBounds = new Rectangle(16, 16, 300, 44);
-            if (id == 1)
-                healthBounds.X = bounds.Width - 16;
-
-            mHealth = MAX_HEALTH;
-            mHealthBar = new HealthBar(mHealth, MAX_HEALTH, healthBounds, id);
+            Health = MaxHealth = MAX_HEALTH;
+            mHealthBar = new HealthBar(this, bounds, id);
         }
 
         // Loads texture into memory
-        public static void LoadContent(ContentManager content) {
-            LoadContent(content, "images\\Square");
-            ProjectileQueue.LoadContent(content);
-            HealthBar.LoadContent(content);
+        public override void LoadContent(ContentManager content) {
+            sprite = content.Load<Texture2D>("images\\Square");
+            mProj.LoadContent(content);
+            mHealthBar.LoadContent(content);
         }
 
         // Damages the Square
         public void Damage(int amount) {
-            health = (int)MathHelper.Clamp(mHealth - amount, 0, MAX_HEALTH);
+            Health = (int)MathHelper.Clamp(Health - amount, 0, MaxHealth);
         }
 
         // Sets health of the square
         public void SetHealth(int amount) {
-            health = (int)MathHelper.Clamp(amount, 0, MAX_HEALTH);
+            Health = (int)MathHelper.Clamp(amount, 0, MaxHealth);
         }
 
         // Returns true if the square is dead
         public bool IsDead() {
-            return mHealth == 0;
+            return Health == 0;
         }
 
         // Returns if the vector is inside the square
@@ -116,7 +114,7 @@ namespace Geimu {
 
         // Reads data into the square
         public void LoadData(GameData.SquareData data) {
-            health = data.health;
+            Health = data.health;
             SpriteObject.Scale = data.scale;
             SpriteObject.Pos = data.pos;
             Controller.SetPrev(data.prevDir);
@@ -128,8 +126,8 @@ namespace Geimu {
         public GameData.SquareData ToData() {
             GameData.SquareData data = new GameData.SquareData();
 
-            data.health = health;
-            data.scale = SpriteObject.Scale;
+            data.health = Health;
+            data.scale = SpriteObject.ScaleVector.X;
             data.pos = SpriteObject.Pos;
             data.prevDir = new Vector2(Controller.xDirPrev, Controller.yDirPrev);
             data.proj = mProj;
@@ -236,7 +234,6 @@ namespace Geimu {
 
         // Draws the Square along with healthbar and projectiles
         public override void Draw(SpriteBatch spriteBatch) {
-
             mHealthBar.Draw(spriteBatch);
 
             base.Draw(spriteBatch);

@@ -9,60 +9,68 @@ using Microsoft.Xna.Framework.Content;
 namespace Geimu {
 
     // Class for handling health
-    public class HealthBar {
-        // Texture
-        private static Texture2D sSprite;
+    public class HealthBar : DrawableObject {
+        // Width of the sprite
+        public const int WIDTH = 300;
 
-        // Location of the rectangle
-        protected Rectangle mLoc;
-        protected int mPlayer;
+        // Reference to the square object
+        protected Square squareReference;
 
-        // Health
-        protected int mMaxHealth;
-        protected int mHealth;
+        // Sprites for empty and full hp bars
+        protected Sprite emptyHealth;
+        protected Sprite fullHealth;
 
-        public int health {
-            set { mHealth = value; }
-        }
+        // Locations for the 3 sprites
+        protected Rectangle borderLoc;
+        protected Rectangle emptyLoc;
+        protected Rectangle fullLoc;
 
         // Creates a new healthbar set to a certain max health
-        public HealthBar(int curHealth, int maxHealth, Rectangle location, int id) {
-            mMaxHealth = maxHealth;
-            mHealth = curHealth;
+        public HealthBar(Square square, Rectangle bounds, int id) {
+            squareReference = square;
 
-            mLoc = location;
-            mPlayer = id;
+            SpriteObject = new Sprite(new Rectangle(0, 0, WIDTH, 44));
+            emptyHealth = fullHealth = new Sprite(new Rectangle(0, 49, WIDTH, 34));
+
+            if (id == 1) {
+                SpriteObject.Origin = emptyHealth.Origin = fullHealth.Origin = new Vector2(WIDTH, 0);
+            }
+
+            borderLoc = new Rectangle(16, 16, 300, 44);
+            if (id == 1)
+                borderLoc.X = bounds.Width - 16;
+
+            emptyLoc = new Rectangle(borderLoc.X + 5, 21, 290, 34);
+            fullLoc = new Rectangle(borderLoc.X + 5, 21, 290, 34);
+            if (id == 1) {
+                emptyLoc.X -= 10;
+                fullLoc.X -= 10;
+            }
+
+            emptyHealth.Tint = Color.Gray;
+            fullHealth.Tint = Color.Red;
+
+            emptyHealth.Depth = 1;
+            fullHealth.Depth = 0.5f;
+            
         }
 
         // Loads texture into memory
-        public static void LoadContent(ContentManager content) {
-            sSprite = content.Load<Texture2D>("images\\HealthBar");
+        public override void LoadContent(ContentManager content) {
+            sprite = content.Load<Texture2D>("images\\HealthBar");
         }
 
         // Draws the healthbar
-        public void Draw(SpriteBatch spriteBatch) {
+        public override void Draw(SpriteBatch spriteBatch) {
+            double ratio = (double)squareReference.Health / squareReference.MaxHealth;
+
+            fullLoc.Width = (int)(ratio * (290));
+
             spriteBatch.Begin(SpriteSortMode.BackToFront, BlendState.AlphaBlend);
 
-            Rectangle source = new Rectangle(0, 0, sSprite.Width, 44);
-            Rectangle sourceHealth = new Rectangle(0, 49, sSprite.Width, 34);
-
-            Vector2 origin = Vector2.Zero;
-            if (mPlayer == 1)
-                origin.X = sSprite.Width;
-
-            double ratio = (double)mHealth / mMaxHealth;
-
-            Rectangle empty = new Rectangle(mLoc.X + 5, mLoc.Y + 5, mLoc.Width - 10, mLoc.Height - 10);
-            Rectangle full = new Rectangle(mLoc.X + 5, mLoc.Y + 5, (int)(ratio * (mLoc.Width - 10)), mLoc.Height - 10);
-            if (mPlayer == 1) {
-                empty.X -= 10;
-                full.X -= 10;
-            }
-
-            spriteBatch.Draw(sSprite, empty, sourceHealth, Color.Gray, 0, origin, SpriteEffects.None, 1);
-            spriteBatch.Draw(sSprite, full, sourceHealth, Color.Red, 0, origin, SpriteEffects.None, 0.5f);
-
-            spriteBatch.Draw(sSprite, mLoc, source, Color.White, 0, origin, SpriteEffects.None, 0);
+            DrawSprite(spriteBatch, SpriteObject, borderLoc);
+            DrawSprite(spriteBatch, emptyHealth, emptyLoc);
+            DrawSprite(spriteBatch, fullHealth, fullLoc);
 
             spriteBatch.End();
         }
