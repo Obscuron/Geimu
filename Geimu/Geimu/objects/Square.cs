@@ -9,7 +9,7 @@ using Microsoft.Xna.Framework.Content;
 namespace Geimu {
 
     // Class representing the player object
-    public class Square {
+    public class Square : DrawableObject{
 
         // Sprite constants
         public const int SIZE = 91;
@@ -25,14 +25,13 @@ namespace Geimu {
         // Maximum health
         public const int MAX_HEALTH = 300;
 
-        // Texture
-        private static Texture2D sSprite;
+        // Sprite
+        protected Sprite square;
 
         // Controller for handling player input
-        protected SquareController mController;
-
-        public SquareController controller {
-            get { return mController; }
+        public SquareController Controller {
+            get;
+            protected set;
         }
 
         // Projectiles that the Square has fired
@@ -91,12 +90,18 @@ namespace Geimu {
         protected float mScale = 1.0f;
         protected float mRot = 0.0f;
 
+        public override String FileName {
+            get { return "images\\Square"; }
+        }
+
         // Construct a new Square at a location with default size.
         public Square(int id, Rectangle bounds, ControlsData controls) {
+            square = new Sprite(new Rectangle(0, 0, SIZE, SIZE));
+
             mPos = Vector2.Zero;
             mVel = Vector2.Zero;
 
-            mController = new SquareController(id, controls);
+            Controller = new SquareController(id, controls);
 
             mBounds = new Rectangle(0, 75, bounds.Width, bounds.Height);
 
@@ -115,8 +120,8 @@ namespace Geimu {
         }
 
         // Loads texture into memory
-        public static void LoadContent(ContentManager content) {
-            sSprite = content.Load<Texture2D>("images\\Square");
+        public override void LoadContent(ContentManager content) {
+            base.LoadContent(content);
             ProjectileQueue.LoadContent(content);
             HealthBar.LoadContent(content);
         }
@@ -155,7 +160,7 @@ namespace Geimu {
             health = data.health;
             mScale = data.scale;
             mPos = data.pos;
-            mController.SetPrev(data.prevDir);
+            Controller.SetPrev(data.prevDir);
             if (data.hasProj)
                 mProj = data.proj;
         }
@@ -167,7 +172,7 @@ namespace Geimu {
             data.health = health;
             data.scale = mScale;
             data.pos = mPos;
-            data.prevDir = new Vector2(mController.xDirPrev, mController.yDirPrev);
+            data.prevDir = new Vector2(Controller.xDirPrev, Controller.yDirPrev);
             data.proj = mProj;
             data.hasProj = true;
 
@@ -176,19 +181,19 @@ namespace Geimu {
 
         // Controls movement of Square
         public void Update() {
-            if (mController == null)
+            if (Controller == null)
                 return;
 
             if (mSize == new Rectangle())
                 mSize.Width = mSize.Height = (int)(SIZE * mScale);
 
-            if (mController.unwalk) {
+            if (Controller.unwalk) {
                 walk = false;
                 mSize.Height = (int)(SIZE * mScale);
                 if (Collided())
                     mPos.Y = enemySquare.bot + mSize.Height;
             }
-            if (mController.walk) {
+            if (Controller.walk) {
                 walk = true;
                 mSize.Height = (int)(SIZE / 2 * mScale);
             }
@@ -200,17 +205,17 @@ namespace Geimu {
             else
                 vel = VEL;
 
-            mVel.X = mController.xDir * vel;
-            mVel.Y = mController.yDir * vel;
+            mVel.X = Controller.xDir * vel;
+            mVel.Y = Controller.yDir * vel;
 
             HandleMovement();
 
-            if (refire == 0 && mController.fire) {
+            if (refire == 0 && Controller.fire) {
                 Vector2 pPos = new Vector2(mPos.X + (mSize.Width / 2), mPos.Y - (mSize.Height / 2));
-                Vector2 pVel = new Vector2(PROJ_VEL * mController.xDirPrev, PROJ_VEL * mController.yDirPrev);
+                Vector2 pVel = new Vector2(PROJ_VEL * Controller.xDirPrev, PROJ_VEL * Controller.yDirPrev);
 
-                pPos.X += mController.xDirPrev * (mSize.Width / 2);
-                pPos.Y += mController.yDirPrev * (mSize.Height / 2);
+                pPos.X += Controller.xDirPrev * (mSize.Width / 2);
+                pPos.Y += Controller.yDirPrev * (mSize.Height / 2);
 
                 mProj.AddProjectile(pPos, pVel);
                 refire = PROJ_RATE;
@@ -227,17 +232,17 @@ namespace Geimu {
         protected void HandleMovement() {
             mPos.X += mVel.X;
             if (Collided()) {
-                if (mController.xDir == 1)
+                if (Controller.xDir == 1)
                     mPos.X = enemySquare.left - mSize.Width;
-                else if (mController.xDir == -1)
+                else if (Controller.xDir == -1)
                     mPos.X = enemySquare.right;
             }
 
             mPos.Y += mVel.Y;
             if (Collided()) {
-                if (mController.yDir == 1)
+                if (Controller.yDir == 1)
                     mPos.Y = enemySquare.top;
-                else if (mController.yDir == -1)
+                else if (Controller.yDir == -1)
                     mPos.Y = enemySquare.bot + mSize.Height;
             }
 

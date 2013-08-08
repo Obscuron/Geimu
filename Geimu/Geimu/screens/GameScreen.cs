@@ -41,8 +41,8 @@ namespace Geimu {
             square0.LoadData(screenManager.dataReference.gameData.Square0);
             square1.LoadData(screenManager.dataReference.gameData.Square1);
 
-            squareControl0 = square0.controller;
-            squareControl1 = square1.controller;
+            squareControl0 = square0.Controller;
+            squareControl1 = square1.Controller;
 
             Square.SetEnemies(square0, square1);
         }

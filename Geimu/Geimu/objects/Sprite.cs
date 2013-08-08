@@ -43,6 +43,10 @@ namespace Geimu {
             get;
             set;
         }
+        public float Depth {
+            get;
+            set;
+        }
 
         public float Width {
             get { return width * Scale; }
@@ -73,6 +77,7 @@ namespace Geimu {
         public Sprite(Rectangle sector) : this() {
             Scale = 1.0f;
             Tint = Color.White;
+            Depth = 0;
 
             Sector = sector;
         }
