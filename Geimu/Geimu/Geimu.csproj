@@ -110,6 +110,7 @@
     <Compile Include="controllers\MenuController.cs" />
     <Compile Include="controllers\InputState.cs" />
     <Compile Include="data\GameData.cs" />
+    <Compile Include="DrawUtil.cs" />
     <Compile Include="objects\DrawableObject.cs" />
     <Compile Include="screens\ControlsChooser.cs" />
     <Compile Include="controllers\RebindController.cs" />

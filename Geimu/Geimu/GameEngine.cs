@@ -77,7 +77,8 @@ namespace Geimu {
         /// all of your content.
         /// </summary>
         protected override void LoadContent() {
-            // Create a new SpriteBatch, which can be used to draw textures
+            // Loads pixel sprite
+            DrawUtil.LoadContent(Content);
 
             // TODO: use this.Content to load your game content here
             screenManager.LoadContent();
