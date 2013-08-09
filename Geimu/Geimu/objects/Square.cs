@@ -86,7 +86,6 @@ namespace Geimu {
         public override void LoadContent(ContentManager content) {
             sprite = content.Load<Texture2D>("images\\Square");
             mProj.LoadContent(content);
-            mHealthBar.LoadContent(content);
         }
 
         // Damages the Square

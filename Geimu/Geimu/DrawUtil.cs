@@ -23,7 +23,7 @@ namespace Geimu {
 
         private static Vector2 OffsetToVector(Offset offset) {
             int val = (int)offset;
-            return new Vector2(0.5f * (val / 3), 0.5f * (val % 3));
+            return new Vector2(0.5f * (val % 3), 0.5f * (val / 3));
         }
 
         // Draws a Rectangle
