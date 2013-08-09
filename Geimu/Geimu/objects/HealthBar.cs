@@ -72,6 +72,8 @@ namespace Geimu {
             DrawSprite(spriteBatch, emptyHealth, emptyLoc);
             DrawSprite(spriteBatch, fullHealth, fullLoc);
 
+            DrawUtil.DrawRectangle(spriteBatch, new Rectangle(300, 300, 300, 100));
+
             spriteBatch.End();
         }
 
