@@ -27,14 +27,11 @@ namespace Geimu {
         }
 
         // Draws a Rectangle
-        public static void DrawRectangle(SpriteBatch spriteBatch, Rectangle location, Color tint, Vector2 origin, float depth) {
+        public static void DrawRectangle(SpriteBatch spriteBatch, Rectangle location, Color tint, Vector2 origin, float depth = 0) {
             spriteBatch.Draw(sprite, location, new Rectangle(0, 0, 1, 1), tint, 0.0f, new Vector2(origin.X / location.Width, origin.Y / location.Height), SpriteEffects.None, depth);
         }
 
         // Overloaded methods
-        public static void DrawRectangle(SpriteBatch spriteBatch, Rectangle location, Color tint, Vector2 origin) {
-            DrawRectangle(spriteBatch, location, tint, origin, 0);
-        }
 
         public static void DrawRectangle(SpriteBatch spriteBatch, Rectangle location, Color tint) {
             DrawRectangle(spriteBatch, location, tint, Vector2.Zero, 0);
@@ -45,12 +42,8 @@ namespace Geimu {
         }
 
         // Draws a Rectangle using offset
-        public static void DrawRectangle(SpriteBatch spriteBatch, Rectangle location, Color tint, Offset origin, float depth) {
+        public static void DrawRectangle(SpriteBatch spriteBatch, Rectangle location, Color tint, Offset origin, float depth = 0) {
             spriteBatch.Draw(sprite, location, new Rectangle(0, 0, 1, 1), tint, 0.0f, OffsetToVector(origin), SpriteEffects.None, depth);
-        }
-
-        public static void DrawRectangle(SpriteBatch spriteBatch, Rectangle location, Color tint, Offset origin) {
-            spriteBatch.Draw(sprite, location, new Rectangle(0, 0, 1, 1), tint, 0.0f, OffsetToVector(origin), SpriteEffects.None, 0);
         }
 
     }
