@@ -22,6 +22,7 @@ namespace Geimu {
         public const int DMG = 5;
 
         // Texture
+        [NonSerialized]
         private Texture2D sprite;
 
         // Boundaries of the windows
